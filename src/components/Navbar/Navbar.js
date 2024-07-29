@@ -3,6 +3,7 @@ import './Navbar.css';
 import Logo from '../../assets/food/logo.png'
 import { IoCartOutline,IoPersonCircleSharp } from "react-icons/io5";
 import {animate, delay, m, motion} from "framer-motion";
+
 const navMenu = [
     {
         id:1,

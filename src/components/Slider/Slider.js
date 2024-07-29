@@ -2,8 +2,9 @@
 import React from "react";
 import FoodPng from "../../assets/food/food.png"
 import Spoon from "../../assets/food/spoon.png"
-import Banana from "../../assets/food/banana2.png"
+import Banana from "../../assets/food/banana.png"
 import Leaf from "../../assets/food/leaf.png"
+import organic from "../../assets/food/organicFood.png"
 import { IoCartOutline} from "react-icons/io5";
 import "./Slider.css"
 const Slider = () => {
