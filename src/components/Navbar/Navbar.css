@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+.container {
+    background-color:beige;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    /* doi font dep hon */
+    font-weight: 700;
+}
+
+.logo {
+    width: 120px;
+}
+
+.menu {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .menu {
+      display: block;
+    }
+  }
+.menu .menu-title {
+    display: inline-block;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    text-decoration: none;
+    color: black;
+
+}
+
+.nav-menu{
+    display: flex;
+    gap: 1.5rem;
+    text-decoration: none;
+    list-style: none;
+   
+}
+.btn-nav {
+    display: flex;
+    
+
+}
+.btn-item {
+    height: 40px;
+    width: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%; 
+    border: none;
+    background-color: black; 
+    color: white;
+    font-size: 200%;
+    cursor: pointer;
+}
+.card-item {
+    margin-right: 25px;
+}
+.singin-item {
+    margin-left: 25px;
+}
