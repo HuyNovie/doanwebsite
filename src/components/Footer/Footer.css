@@ -1,0 +1,13 @@
+.res-name {
+    font-size: 1rem; 
+    font-weight: bold;
+    color: red;
+}
+
+.about-title{
+    color: red;
+}
+
+.container-footer {
+    background-color: rgb(233, 241, 255);
+}

@@ -15,7 +15,7 @@ const Slider = () => {
             {/* text content */}
             <div className="content">
                 <h1 className="text-content text-content-items" >
-                    Yummy
+                    KOREAN-KUISINE
                     <img src={Leaf} alt="" className="img-content"/>
                 </h1>
                 <h1 className="text-content">restaurant</h1>
