@@ -32,8 +32,8 @@
   
   .list {
     text-decoration: none;
-    list-style-type: none; /* Bỏ dấu chấm của danh sách */
-    padding: 0; /* Bỏ padding mặc định */
+    list-style-type: none;
+    padding: 0;
   }
 
   .about-title {
@@ -55,15 +55,11 @@
     margin-bottom: 10px;
   }
   
-  .text-copyright {
-    text-align: center;
-  }
-  
   /* custom thanh hr doc */
   .vertical-hr {
     border: 0;
-    border-left: 1px solid #ff0000; /* Đặt màu và độ dày của đường kẻ */
-    height: 100px; /* Chiều cao của đường kẻ */
+    border-left: 1px solid #ff0000; 
+    height: 100px;
     margin-top: 20px;
     margin-right: 20px;
     margin-left: -20px;

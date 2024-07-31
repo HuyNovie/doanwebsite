@@ -103,8 +103,9 @@ const Footer = () => {
             <ul className='list list-about'>
               {listAbout.map((about) => (
                 <li key={about.id} className='about-items'>
+                  {about.icon} 
                   <a href={about.path} className='about-title'>
-                    {about.icon} <span className='about-name'>{about.name}</span> {about.title}
+                    <span className='about-name'>{about.name}</span> {about.title}
                   </a>
                 </li>
               ))}
@@ -140,7 +141,7 @@ const Footer = () => {
         </Row>
         <Row>
           <Col>
-            <h5 className='text-copyright'>© Copyright 2024 by Korean-Kuisine restaurant. All Rights Reserved.</h5>
+            <h5 className='text-copyright text-center'>© Copyright 2024 by Korean-Kuisine restaurant. All Rights Reserved.</h5>
           </Col>
         </Row>
       </Container>
