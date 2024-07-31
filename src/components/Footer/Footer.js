@@ -128,7 +128,7 @@ const Footer = () => {
             <ul className='list list-link'>
               {listFanpage.map((fanpage) => (
                 <li key={fanpage.id} className='li-items'>
-                  <a href={fanpage.path} className='li-title'>
+                  <a href={fanpage.path} className='li-title red'>
                     {fanpage.icon}
                   </a>
                 </li>
