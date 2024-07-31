@@ -1,5 +1,6 @@
 import './Footer.css';
 import Logo from '../../assets/food/logo.png'
+import location from '../../assets/imgLocation.png'
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import {FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
@@ -11,9 +12,16 @@ const listAbout = [
     {
         id:1,
         icon: <FaMapMarkerAlt />,
-        name: "Location: ",
+        name: "Cơ sở 1: ",
         title:"10/10 An Phú Đông, An Phú Đông, Q.12, Việt Nam",
         path: "/location"
+    },
+    {
+      id:1,
+      icon: <FaMapMarkerAlt />,
+      name: "Cơ sở 2: ",
+      title:"20/10 An Phú Đông, An Phú Đông, Q.12, Việt Nam",
+      path: "/location"
     },
     {
         id:2,
@@ -103,7 +111,7 @@ const Footer = () => {
             <ul className='list list-about'>
               {listAbout.map((about) => (
                 <li key={about.id} className='li-items'>
-                  {about.icon} 
+                  <span className='li-icon'>{about.icon} </span>
                   <a href={about.path} className='li-title'>
                     <span className='li-name'>{about.name}</span> {about.title}
                   </a>
@@ -134,6 +142,18 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
+            <Row>
+              <h3 className='res-title'>Bản đồ</h3>
+              <Col>
+                <img src={location} className='location'/>
+                <h4>Cơ sở 1</h4>
+              </Col>
+              <Col>
+                <img src={location} className='location'/>
+                <h4>Cơ sở 2</h4>
+              </Col>
+            </Row>
+            
           </Col>
         </Row>
         <Row>
