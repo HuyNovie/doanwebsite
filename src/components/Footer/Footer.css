@@ -1,13 +1,13 @@
-  .footer-container {
-    max-width: 80%;
-    margin-top: 20px;
+  li {
+    text-decoration: none;
+    list-style-type: none;
+    padding: 0;
   }
-
   .logo {
     max-width: 140px;
     height: auto;
   }
-
+  
   .text-slogan {
     font-size: 18px;
     font-weight: 600;
@@ -25,33 +25,23 @@
     font-weight: bold;
     font-size: 30px;
   }
-  
-  .res-about, .res-contact {
-    margin-top: 20px;
-  }
-  
-  .list {
-    text-decoration: none;
-    list-style-type: none;
-    padding: 0;
-  }
 
-  .about-title {
+  .li-title {
     padding-left: 10px;
     text-decoration: none;
     font-weight: bold;
     color: black;
   }
-  .about-title:hover {
+  .li-title:hover {
     color: red;
   }
 
-  .about-name {
+  .li-name {
     color: red;
     padding-left: 5px;
   }
   
-  .about-items {
+  .li-items {
     margin-bottom: 10px;
   }
   
@@ -60,7 +50,4 @@
     border: 0;
     border-left: 1px solid #ff0000; 
     height: 100px;
-    margin-top: 20px;
-    margin-right: 20px;
-    margin-left: -20px;
   }

@@ -79,7 +79,7 @@ const listFanpage = [
 
 const Footer = () => {
     return (
-      <Container fluid className="footer-container">
+      <Container fluid className="footer-container mt-4">
         <Row>
           <Col className="footer-section d-flex justify-content-center">
             <Col xs={2} md={2}  className="footer-logo">
@@ -102,10 +102,10 @@ const Footer = () => {
             <h3 className='res-title'>Liên Hệ</h3>
             <ul className='list list-about'>
               {listAbout.map((about) => (
-                <li key={about.id} className='about-items'>
+                <li key={about.id} className='li-items'>
                   {about.icon} 
-                  <a href={about.path} className='about-title'>
-                    <span className='about-name'>{about.name}</span> {about.title}
+                  <a href={about.path} className='li-title'>
+                    <span className='li-name'>{about.name}</span> {about.title}
                   </a>
                 </li>
               ))}
@@ -115,8 +115,8 @@ const Footer = () => {
             <h3 className='res-title'>Liên kết</h3>
             <ul className='list list-link'>
               {listLink.map((link) => (
-                <li key={link.id} className='about-items'>
-                  <a href={link.path} className='about-title'>
+                <li key={link.id} className='li-items'>
+                  <a href={link.path} className='li-title'>
                     {link.title}
                   </a>
                 </li>
@@ -127,8 +127,8 @@ const Footer = () => {
             <h3 className='res-title'>Fanpage</h3>
             <ul className='list list-link'>
               {listFanpage.map((fanpage) => (
-                <li key={fanpage.id} className='about-items'>
-                  <a href={fanpage.path} className='about-title'>
+                <li key={fanpage.id} className='li-items'>
+                  <a href={fanpage.path} className='li-title'>
                     {fanpage.icon}
                   </a>
                 </li>
