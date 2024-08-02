@@ -4,9 +4,7 @@ import Logo from '../../assets/food/logo.png'
 import { IoCartOutline,IoPersonCircleSharp } from "react-icons/io5";
 import {animate, delay, m, motion} from "framer-motion";
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const navMenu = [
@@ -59,7 +57,16 @@ const SlideDown = (delay) => {
         }
     }
 };
+
+
 const Navbar = () =>{
+    // Điều hướng tới trang login
+    const navigate = useNavigate();
+
+    const goToLogin = () => {
+    navigate('/login');
+    };
+    
     return (
         <Container fluid>
             <nav id="navbarid">
@@ -97,7 +104,7 @@ const Navbar = () =>{
                         <button className='btn-item card-item'>
                             <IoCartOutline />
                         </button>
-                        <button className='btn-item singin-item'>
+                        <button className='btn-item singin-item' onClick={goToLogin}>
                             <IoPersonCircleSharp /> 
                         </button>
                     </motion.div>
