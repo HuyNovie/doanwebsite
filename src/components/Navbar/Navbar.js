@@ -12,31 +12,31 @@ import Col from 'react-bootstrap/Col';
 const navMenu = [
     {
         id:1,
-        title: "Home",
+        title: "Trang chủ",
         path: "/",
         delay:0.1
     },
     {
         id:2,
-        title: "About",
+        title: "Đặt bàn",
         path: "/about",
         delay:0.2
     },
     {
         id:3,
-        title: "Menu",
+        title: "Thực đơn",
         path: "/menu",
         delay:0.3
     },
     {
         id:4,
-        title: "Delivery",
+        title: "Vận chuyển",
         path: "/deliver",
         delay:0.4
     },
     {
         id:5,
-        title: "Contact",
+        title: "Liên hệ",
         path: "/Contact",
         delay:0.5
     }
