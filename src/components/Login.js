@@ -23,7 +23,7 @@ const Login = () => {
               console.log('Login successful:', data.result);
       
             localStorage.setItem('token', data.result.token);
-            window.location.href='/home';
+            window.location.href='/';
           } else {
               setErrorMessage = data.message;
           }
