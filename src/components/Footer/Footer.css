@@ -20,19 +20,19 @@
     max-width: 140px;
     height: auto;
   }
-  
+
   .text-slogan {
     font-size: 18px;
     font-weight: var(--textBold);
   }
-  
+
   .res-title {
     color: var(--colorRed);
     font-size: 24px;
     font-weight: bold;
     margin-top: 30px;
   }
-  
+
   .res-name {
     color: var(--colorRed);
     font-weight: bold;
@@ -44,6 +44,7 @@
     text-decoration: none;
     color: black;
   }
+
   .li-title:hover {
     color: var(--colorRed);
   }
@@ -52,17 +53,18 @@
     color: var(--colorRed);
     padding-left: 5px;
   }
-  
+
   .li-items {
     margin-bottom: 10px;
   }
-  
+
   .location {
     max-width: 200px;
   }
+
   /* custom thanh hr doc */
   .vertical-hr {
     border: 0;
-    border-left: 1px solid var(--colorRed); 
+    border-left: 1px solid var(--colorRed);
     height: 100px;
   }

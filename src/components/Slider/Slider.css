@@ -1,68 +1,70 @@
-
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 
 .container {
-    background-color:beige;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 3rem;
-    
+  background-color: beige;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 3rem;
+
 }
 
 .container .slider {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 3rem; 
-    place-items: center;
-    justify-content: space-between;
-    min-height: 500px;
-    padding-left: 150px;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 3rem;
+  place-items: center;
+  justify-content: space-between;
+  min-height: 500px;
+  padding-left: 150px;
 }
 
 .content {
-    margin-top: 3.5rem; 
-    text-align: center; 
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem; 
+  margin-top: 3.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.text-content-items{
-    color: transparent;
-    font-size: 2rem; 
-    color: rgb(77, 141, 64); 
-    position: relative;
-    text-shadow: 
-    2px 2px 0 #000, 
+.text-content-items {
+  color: transparent;
+  font-size: 2rem;
+  color: rgb(77, 141, 64);
+  position: relative;
+  text-shadow:
+    2px 2px 0 #000,
     -2px -2px 0 #000,
     2px -2px 0 #000,
-    -2px 2px 0 #000; 
-    
+    -2px 2px 0 #000;
+
 }
+
 .text-content {
-    position: relative;
-    font-size: 3rem; 
-    font-weight: bold; 
-    text-transform: uppercase; 
+  position: relative;
+  font-size: 3rem;
+  font-weight: bold;
+  text-transform: uppercase;
 }
+
 .img-content {
-    position: absolute;
-    width: 60px;
-    top: 10px;
-    right: 20px;
+  position: absolute;
+  width: 60px;
+  top: 10px;
+  right: 20px;
 }
+
 .cart-outline {
   padding: 5px;
-  
+
 }
 
 .text-content-main {
-    font-size: 0.875rem;
+  font-size: 0.875rem;
 }
 
 
@@ -84,29 +86,30 @@
 
 
 @media (min-width: 768px) {
-    .slider {
-      grid-template-columns: repeat(2, 1fr); 
-    }
-
-    .content {
-        text-align: left; 
-        margin-top: 0; 
-    }
-  }
-  
-  
-  @media (min-width: 1024px) {
-    .slider {
-      gap: 6rem; 
-    }
-    .text-content {
-        font-size: 4.5rem;
-    }
+  .slider {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  @media (min-width: 768px) {
-    .custom-spacing {
-      text-align: left; 
-      margin-top: 0; 
-    }
+  .content {
+    text-align: left;
+    margin-top: 0;
   }
+}
+
+
+@media (min-width: 1024px) {
+  .slider {
+    gap: 6rem;
+  }
+
+  .text-content {
+    font-size: 4.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .custom-spacing {
+    text-align: left;
+    margin-top: 0;
+  }
+}
