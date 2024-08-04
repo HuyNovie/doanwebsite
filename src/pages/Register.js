@@ -11,13 +11,13 @@ const Register = () => {
 
   const [user, setUser] = useState({
     fullName: "",
-    email: "",
+    mail: "",
     password: "",
     status: 1,
   });
 
   const [fullNameError, setFullNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [mailError, setMailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const validateData = (name, value) => {
@@ -31,16 +31,16 @@ const Register = () => {
           setFullNameError("");
         }
         break;
-      case "email":
+      case "mail":
         if (!value) {
-          setEmailError("Vui lòng điền vào mục này.");
+          setMailError("Vui lòng điền vào mục này.");
           isValid = false;
         } else {
           if (!validateEmail(value)) {
-            setEmailError("Email không được định dạng đúng!");
+            setMailError("Email không được định dạng đúng!");
             isValid = false;
           } else {
-            setEmailError("");
+            setMailError("");
           }
         }
         break;
@@ -102,10 +102,10 @@ const Register = () => {
     e.preventDefault();
 
     const fullNameValid = validateData("fullName", user.fullName);
-    const emailValid = validateData("email", user.email);
+    const mailValid = validateData("mail", user.mail);
     const passwordValid = validateData("password", user.password);
 
-    if (fullNameValid && emailValid && passwordValid) {
+    if (fullNameValid && mailValid && passwordValid) {
       const username = generateUsername(user.fullName);
       const firstName = generateFirstName(user.fullName);
       const lastName = generateLastName(user.fullName);
@@ -123,7 +123,7 @@ const Register = () => {
             body: JSON.stringify({
               username,
               password: user.password,
-              email: user.email,
+              mail: user.mail,
               phone,
               firstName,
               lastName,
@@ -138,7 +138,7 @@ const Register = () => {
           window.location.href = "/";
         }
         if (data.code === 1002) {
-          console.log("Register fail:", data.result.message);
+          console.log("Register fail:", data.message);
           setErrorMessage("Tài khoản đã tồn tại");
         }
       } catch (error) {
@@ -171,12 +171,12 @@ const Register = () => {
         <div className="form-group">
           <Input
             type="email"
-            name="email"
+            name="mail"
             onChange={handleChange}
-            status={emailError ? "error" : ""}
+            status={mailError ? "error" : ""}
             placeholder="Email"
           />
-          {emailError && <p className="error-message">{emailError}</p>}
+          {mailError && <p className="error-message">{mailError}</p>}
         </div>
         <div className="form-group">
           <Input

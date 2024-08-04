@@ -22,9 +22,6 @@ const Login = () => {
         if (!value) {
           setUsernameError("Vui lòng điền vào mục này.");
           isValid = false;
-        } else if (value.length < 8) {
-          setUsernameError("Tên tài khoản phải dài hơn 8 kí tự");
-          isValid = false;
         } else {
           setUsernameError("");
         }
@@ -33,10 +30,7 @@ const Login = () => {
         if (!value) {
           setPasswordError("Vui lòng điền vào mục này.");
           isValid = false;
-        } else if (value.length < 8) {
-          setPasswordError("Mật khẩu phải dài hơn 8 kí tự");
-          isValid = false;
-        } else {
+        }  else {
           setPasswordError("");
         }
         break;
@@ -73,7 +67,9 @@ const Login = () => {
             },
             body: JSON.stringify({
               username: user.username,
-              password: user.password,
+              mail: user.username, 
+              phone: user.username,
+              password: user.password
             }),
           }
         );
@@ -114,7 +110,7 @@ const Login = () => {
             onChange={handleChange}
             name="username"
             status={usernameError ? "error" : ""}
-            placeholder="Tên tài khoản"
+            placeholder="Email/Tên tài khoản/Số điện thoại"
           />
           <span className="items-form">
             <FaUser />
