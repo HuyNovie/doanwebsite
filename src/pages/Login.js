@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Login.css";
+import "./Login_Register.css";
 import { Button, Input } from "antd";
 import { Link } from "react-router-dom";
 import { FaUser, FaEyeSlash, FaEye } from "react-icons/fa";
@@ -103,7 +103,7 @@ const Login = () => {
   return (
     <div className="wrapper">
       <form onSubmit={handleSubmit}>
-        <h1>Login</h1>
+        <h1>Đăng nhập</h1>
         <div className="form-group">
           <Input
             type="text"
@@ -137,7 +137,7 @@ const Login = () => {
             <input className="checkbox" type="checkbox" />
             Ghi nhớ
           </label>
-          <Link to="/">Quên mật khẩu?</Link>
+          <Link to="">Quên mật khẩu?</Link>
         </div>
         <div>
           <Button htmlType="submit" type="primary">

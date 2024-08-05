@@ -1,5 +1,5 @@
 import React from "react";
-import "./Register.css";
+import "./Login_Register.css";
 import { Button, Input } from "antd";
 import { Link } from "react-router-dom";
 import { useState } from "react";
