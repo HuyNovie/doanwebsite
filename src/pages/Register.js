@@ -157,7 +157,7 @@ const Register = () => {
   return (
     <div className="wrapper">
       <form onSubmit={handleSubmit}>
-        <h1>Đăng kí</h1>
+        <h1 className="text-center">Đăng kí</h1>
         <div className="form-group">
           <Input
             type="text"
@@ -199,9 +199,7 @@ const Register = () => {
         <div className="login-link">
           <div>
             Bạn đã có tài khoản chưa?
-            <Link to="/login" className="text-login">
-              Đăng nhập
-            </Link>
+            <Link to="/login" className="text-login"> Đăng nhập </Link>
           </div>
         </div>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

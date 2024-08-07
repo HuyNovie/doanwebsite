@@ -89,21 +89,27 @@ const Footer = () => {
   return (
     <Container fluid className="footer-container mt-4">
       <Row>
-        <Col className="footer-section d-flex justify-content-center">
-          <Col xs={2} md={2} className="footer-logo">
-            <img src={Logo} alt="Logo" className="logo" />
-            <h1 className="res-name">KOREAN KUISINE</h1>
+        <Col className="footer-section d-flex ">
+          <Col
+            xs={12}
+            md={4}
+            className="footer-logo d-flex justify-content-end-lg-up justify-content-center-lg-down"
+          >
+            <div className="text-center">
+              <img src={Logo} alt="logo" className="logo" />
+              <h1 className="res-name">KOREAN KUISINE</h1>
+            </div>
+            <hr className="vertical-hr d-none d-lg-block"></hr>
           </Col>
-          <Col xs={2} md={2}>
-            <div className="vertical-hr"></div>
-          </Col>
-          <Col xs={8} md={8} className="footer-slogan">
-            <p className="text-slogan">
-              Với mong muốn luôn luôn lắng nghe và phát triển, chúng tôi rất vui
-              và lấy làm vinh dự khi được bạn góp ý – đánh giá về dịch vụ của
-              mình. Chúng tôi sẽ tiếp thu và phát triển dịch vụ hoàn thiện hơn
-              từng ngày.
-            </p>
+          <Col xs={12} md={8} className="footer-slogan ">
+            <div>
+              <p className="text-slogan mt-5 text-start d-none d-md-block">
+                Với mong muốn luôn luôn lắng nghe và phát triển, chúng tôi rất
+                vui và lấy làm vinh dự khi được bạn góp ý – đánh giá về dịch vụ
+                của mình. Chúng tôi sẽ tiếp thu và phát triển dịch vụ hoàn thiện
+                hơn từng ngày.
+              </p>
+            </div>
           </Col>
         </Col>
       </Row>

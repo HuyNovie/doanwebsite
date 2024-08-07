@@ -103,7 +103,7 @@ const Login = () => {
   return (
     <div className="wrapper">
       <form onSubmit={handleSubmit}>
-        <h1>Đăng nhập</h1>
+        <h1 className="text-center">Đăng nhập</h1>
         <div className="form-group">
           <Input
             type="text"
@@ -131,13 +131,11 @@ const Login = () => {
           </span>
           {passwordError && <p className="error-message">{passwordError}</p>}
         </div>
-
         <div className="remember-forgot">
           <label>
-            <input className="checkbox" type="checkbox" />
-            Ghi nhớ
+            <Link to="/">Quên mật khẩu</Link>
           </label>
-          <Link to="">Quên mật khẩu?</Link>
+            <Link to="/">Đăng nhập với sms</Link>
         </div>
         <div>
           <Button htmlType="submit" type="primary">
@@ -147,10 +145,8 @@ const Login = () => {
 
         <div className="register-link">
           <p>
-            Bạn chưa có tài khoản ?
-            <Link to="/register" className="text-register">
-              Đăng kí
-            </Link>
+            Bạn chưa có tài khoản?
+            <Link to="/register" className="text-register"> Đăng kí </Link>
           </p>
         </div>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

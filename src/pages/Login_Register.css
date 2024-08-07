@@ -103,11 +103,6 @@ input[type=password]::-ms-clear
 
 }
 
-.remember-forgot .checkbox {
-    accent-color: var(--mainText);
-    margin-right: 4px;
-   
-}
 
 .remember-forgot a {
     color: var(--mainText);
@@ -115,7 +110,7 @@ input[type=password]::-ms-clear
 }
 
 .remember-forgot a:hover {
-    text-decoration: underline;
+    color: red;
 }
 
 .wrapper button{
@@ -156,5 +151,5 @@ input[type=password]::-ms-clear
 
 .login-link .text-login:hover,
 .register-link .text-register:hover {
-    text-decoration: underline;
+    color: red;
 } 
