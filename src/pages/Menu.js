@@ -1,0 +1,442 @@
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import {
+  Container,
+  Row,
+  Col,
+  ListGroup,
+  Card,
+  Carousel,
+  Button,
+  Dropdown,
+} from "react-bootstrap";
+import "./Menu.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDebounce } from "use-debounce";
+import fiveStar from "../assets/rating/5sao.png";
+import fourStar from "../assets/rating/4sao.png";
+import threeStar from "../assets/rating/3sao.png";
+import twoStar from "../assets/rating/2sao.png";
+import oneStar from "../assets/rating/1sao.png";
+import {
+  faCameraRetro,
+  faMagnifyingGlass,
+  faMicrophone,
+} from "@fortawesome/free-solid-svg-icons";
+
+const Menu = () => {
+  const [listType, setListType] = useState([
+    { id: 1, title: "Tất cả", name: "all", values: 0 },
+    { id: 2, title: "Ẩm thực hàn", name: "dish", values: 0 },
+    { id: 3, title: "Đồ uống", name: "drinks", values: 0 },
+  ]);
+
+  const [listRating, setListRating] = useState([
+    { id: 5, title: "5 sao", icon: fiveStar, values: 0 },
+    { id: 4, title: "4 sao", icon: fourStar, values: 0 },
+    { id: 3, title: "3 sao", icon: threeStar, values: 0 },
+    { id: 2, title: "2 sao", icon: twoStar, values: 0 },
+    { id: 1, title: "1 sao", icon: oneStar, values: 0 },
+  ]);
+
+  const [listBasicInfo, setListBasicInfo] = useState([
+    { id: 1, title: "Thịt", values: 0 },
+    { id: 2, title: "Canh", values: 0 },
+    { id: 3, title: "Món phụ", values: 0 },
+    { id: 4, title: "Xào", values: 0 },
+    { id: 5, title: "Trộn", values: 0 },
+    { id: 6, title: "Hải sản", values: 0 },
+  ]);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm]  = useDebounce(searchTerm, 500);
+  const [products, setProducts] = useState([]);
+  const [selectedNameValue, setSelectedNameValue] = useState(1);
+  const [selectedRatingValue, setSelectedRatingValue] = useState(null);
+  const [selectedBasicInfoValue, setSelectedBasicInfoValue] = useState(null);
+  const [initialLoadDone, setInitialLoadDone] = useState(false);
+
+  const typeLookup = useMemo(
+    () =>
+      listType.reduce((acc, item) => ({ ...acc, [item.id]: item.name }), {}),
+    [listType]
+  );
+
+  const ratingLookup = useMemo(
+    () => listRating.reduce((acc, item) => ({ ...acc, [item.id]: item }), {}),
+    [listRating]
+  );
+
+  const basicInfoLookup = useMemo(
+    () =>
+      listBasicInfo.reduce(
+        (acc, item) => ({ ...acc, [item.id]: item.title }),
+        {}
+      ),
+    [listBasicInfo]
+  );
+
+  const [loading, setLoading] = useState(false);
+
+  const getCurrentTypeName = useMemo(
+    () => typeLookup[selectedNameValue] || "all",
+    [typeLookup, selectedNameValue]
+  );
+
+  const getCurrentRating = useMemo(() => {
+    const rating = ratingLookup[selectedRatingValue];
+    if (rating) {
+      return { minRating: rating.id, maxRating: rating.id + 0.9 };
+    }
+    return { minRating: 0, maxRating: 5 };
+  }, [ratingLookup, selectedRatingValue]);
+
+  const loadProduct = useCallback(
+    async (initialLoad = false) => {
+      try {
+        setLoading(true);
+        const { minRating, maxRating } = getCurrentRating;
+        const params = new URLSearchParams();
+        const currentType = getCurrentTypeName;
+
+        if (currentType !== "all") {
+          params.append("productType", currentType);
+        }
+        if (selectedBasicInfoValue) {
+          params.append("basicInfo", basicInfoLookup[selectedBasicInfoValue]);
+        }
+        if (minRating !== undefined && maxRating !== undefined) {
+          params.append("minRating", minRating);
+          params.append("maxRating", maxRating);
+        }
+
+        const response = await fetch(
+          `http://localhost:8080/identity/menu/filter?${params.toString()}`
+        );
+        const data = await response.json();
+        if (Array.isArray(data.result)) {
+          setProducts(data.result);
+          if (initialLoad) {
+            updateCounts(data.result);
+          }
+        } else {
+          setProducts([]);
+        }
+      } catch (error) {
+        console.error("Error loading products:", error);
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [
+      getCurrentTypeName,
+      getCurrentRating,
+      basicInfoLookup,
+      selectedBasicInfoValue,
+    ]
+  );
+
+  const fetchSearchResults = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/identity/menu/search?keyword=${debouncedSearchTerm}`
+      );
+      const data = await response.json();
+      if (data.result) {
+        setProducts(data.result);
+        updateCounts(data.result);
+      } else {
+        setProducts([]);
+        updateCounts([]);
+      }
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  }, [debouncedSearchTerm]);
+
+  const handleKeyPress = (event) => {
+    if(event.key === 'Enter') {
+      setDebouncedSearchTerm(searchTerm);
+      fetchSearchResults();
+    }
+  }
+
+  const updateCounts = (result) => {
+    setListType((prevListType) =>
+      prevListType.map((type) => ({
+        ...type,
+        values:
+          type.name === "all"
+            ? result.length
+            : result.filter((product) => product.type === type.name).length,
+      }))
+    );
+
+    setListRating((prevListRating) =>
+      prevListRating.map((rating) => ({
+        ...rating,
+        values: result.filter(
+          (product) => Math.floor(product.rating) === rating.id
+        ).length,
+      }))
+    );
+
+    setListBasicInfo((prevListBasicInfo) =>
+      prevListBasicInfo.map((basicInfo) => ({
+        ...basicInfo,
+        values: result.filter((product) =>
+          product.basicInfo
+            .toLowerCase()
+            .includes(basicInfo.title.toLowerCase())
+        ).length,
+      }))
+    );
+  };
+
+  const resetSelections = () => {
+    setSelectedNameValue(1);
+    setSelectedRatingValue(null);
+    setSelectedBasicInfoValue(null);
+    setSearchTerm("");
+    loadProduct(true);
+  };
+
+  useEffect(() => {
+    if (!initialLoadDone) {
+      loadProduct(true);
+      setInitialLoadDone(true); 
+    } else if (debouncedSearchTerm.length > 0) {
+      fetchSearchResults();
+    } else {
+      loadProduct();
+    }
+  }, [
+    debouncedSearchTerm,
+    selectedNameValue,
+    selectedRatingValue,
+    selectedBasicInfoValue,
+    fetchSearchResults,
+    loadProduct,
+    initialLoadDone,
+  ]);
+
+  const handleSort = (key, ascending) => {
+    const sortedProducts = [...products].sort((a, b) => {
+      if (ascending) {
+        return a[key] - b[key];
+      } else {
+        return b[key] - a[key];
+      }
+    });
+    setProducts(sortedProducts);
+  };
+
+  return (
+    <Container fluid className="menu-container mt-4">
+      <Row>
+        // {/* carousel */}
+        <Carousel>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src="your-image-source.jpg"
+              alt="First slide"
+            />
+            <Carousel.Caption>
+              <h3>First slide label</h3>
+              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+        </Carousel>
+      </Row>
+      <Row>
+        <Col xs={12} md={2}>
+          <div className=" radio-md">
+            {/* list type  */}
+            <div className="radio-input">
+              {listType.map((type) => (
+                <label key={type.id} className="label">
+                  <input
+                    type="radio"
+                    name="type"
+                    value={type.id}
+                    checked={selectedNameValue === type.id}
+                    onChange={(e) =>
+                      setSelectedNameValue(parseInt(e.target.value, 10))
+                    }
+                  />
+                  <span className="text">{type.title}</span>
+                  <span className="count">({type.values})</span>
+                </label>
+              ))}
+            </div>
+            <hr className="hr-md" />
+            {/* list rating */}
+            <div className="radio-input">
+              {listRating.map((rating) => (
+                <label key={rating.id} className="label">
+                  <input
+                    type="radio"
+                    name="rating"
+                    value={rating.id}
+                    checked={selectedRatingValue === rating.id}
+                    onChange={(e) =>
+                      setSelectedRatingValue(parseInt(e.target.value, 10))
+                    }
+                  />
+                  <img
+                    src={rating.icon}
+                    alt={`${rating.title} icon`}
+                    style={{
+                      width: "45px",
+                      height: "20px",
+                      marginRight: "10px",
+                    }}
+                  />
+                  <span className="count">({rating.values})</span>
+                </label>
+              ))}
+            </div>
+            <hr className="hr-md" />
+            <div className="radio-input">
+              {listBasicInfo.map((basicInfo) => (
+                <label key={basicInfo.id} className="label">
+                  <input
+                    type="radio"
+                    name="basicInfo"
+                    value={basicInfo.id}
+                    checked={selectedBasicInfoValue === basicInfo.id}
+                    onChange={(e) =>
+                      setSelectedBasicInfoValue(parseInt(e.target.value, 10))
+                    }
+                  />
+                  <span className="text">{basicInfo.title}</span>
+                  <span className="count">({basicInfo.values})</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          {/* button reset */}
+          <div>
+            <button
+              className="btn btn-warning"
+              onClick={() => resetSelections()}
+            >
+              Reset
+            </button>
+          </div>
+        </Col>
+        <Col xs={12} md={8}>
+          {/* search */}
+          <Row>
+            <Col xs={10} md={10}>
+              <div className="search search-bar">
+                <button className="search__button">
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                </button>
+                <input
+                  type="text"
+                  className="search__input"
+                  placeholder="Search..."
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                />
+                <button className="mic__button">
+                  <FontAwesomeIcon icon={faMicrophone} />
+                </button>
+                <button className="picture__button">
+                  <FontAwesomeIcon icon={faCameraRetro} />
+                </button>
+              </div>
+              {searchTerm && products.length > 0 && (
+                <ListGroup className="search-results">
+                  {products.map((result, index) => (
+                    <ListGroup.Item
+                      key={index}
+                      onClick={() => setSearchTerm(result.name)}
+                    >
+                      {result.name}
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              )}
+            </Col>
+            <Col xs={2} md={2}>
+              <div className="mt-2">
+                <Dropdown>
+                  <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    Sắp xếp theo giá
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => handleSort("price", true)}>
+                      Tăng dần
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleSort("price", false)}>
+                      Giảm dần
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
+            </Col>
+          </Row>
+          {/* loader */}
+          <Row>
+            {loading && (
+              <div className="spinner-border " role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            )}
+          </Row>
+          {/* list product */}
+          <Row>
+            {(products || []).map((product) => (
+              <Col key={product.id} xs={6} sm={3} md={4}>
+                <Card className="card mb-4">
+                  <Card.Img
+                    variant="top"
+                    src={`http://localhost:8080/images/${product.imageUrl}`}
+                    alt={product.name}
+                    className="card-img"
+                  />
+                  <Card.Body className="card-info">
+                    <Card.Title className="text-title">
+                      {product.name}
+                    </Card.Title>
+                    <Card.Text className="text-body">
+                      {product.basicInfo}
+                    </Card.Text>
+                    <Card.Text className="text-body">
+                      {product.ingredients}
+                    </Card.Text>
+                    <Card.Text>Đánh giá: {product.rating}</Card.Text>
+                  </Card.Body>
+                  <Card.Footer className="card-footer">
+                    {" "}
+                    <span className="text-title">${product.price}</span>
+                    <Button variant="outline-primary" className="card-button">
+                      {" "}
+                      <svg
+                        className="svg-icon"
+                        viewBox="0 0 20 20"
+                        width="20"
+                        height="20"
+                      >
+                        <path d="M17.72,5.011H8.026c-0.271,0-0.49,0.219-0.49,0.489c0,0.271,0.219,0.489,0.49,0.489h8.962l-1.979,4.773H6.763L4.935,5.343C4.926,5.316,4.897,5.309,4.884,5.286c-0.011-0.024,0-0.051-0.017-0.074C4.833,5.166,4.025,4.081,2.33,3.908C2.068,3.883,1.822,4.075,1.795,4.344C1.767,4.612,1.962,4.853,2.231,4.88c1.143,0.118,1.703,0.738,1.808,0.866l1.91,5.661c0.066,0.199,0.252,0.333,0.463,0.333h8.924c0.116,0,0.22-0.053,0.308-0.128c0.027-0.023,0.042-0.048,0.063-0.076c0.026-0.034,0.063-0.058,0.08-0.099l2.384-5.75c0.062-0.151,0.046-0.323-0.045-0.458C18.036,5.092,17.883,5.011,17.72,5.011z"></path>
+                        <path d="M8.251,12.386c-1.023,0-1.856,0.834-1.856,1.856s0.833,1.853,1.856,1.853c1.021,0,1.853-0.83,1.853-1.853S9.273,12.386,8.251,12.386z M8.251,15.116c-0.484,0-0.877-0.393-0.877-0.874c0-0.484,0.394-0.878,0.877-0.878c0.482,0,0.875,0.394,0.875,0.878C9.126,14.724,8.733,15.116,8.251,15.116z"></path>
+                        <path d="M13.972,12.386c-1.022,0-1.855,0.834-1.855,1.856s0.833,1.853,1.855,1.853s1.854-0.83,1.854-1.853S14.994,12.386,13.972,12.386z M13.972,15.116c-0.484,0-0.878-0.393-0.878-0.874c0-0.484,0.394-0.878,0.878-0.878c0.482,0,0.875,0.394,0.875,0.878C14.847,14.724,14.454,15.116,13.972,15.116z"></path>
+                      </svg>
+                    </Button>
+                  </Card.Footer>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Col>
+      </Row>
+      <hr></hr>
+    </Container>
+  );
+};
+
+export default Menu;

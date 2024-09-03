@@ -1,85 +1,85 @@
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  :root {
-    --colorRed: #ff0000;
-    --textBold: bold;
-  }
+:root {
+  --colorRed: #ff0000;
+  --textBold: bold;
+}
 
-  li {
-    text-decoration: none;
-    list-style-type: none;
-    padding: 0;
-    font-weight: var(--textBold);
-  }
-  p {
-    font-size: 18px;
-    font-weight: var(--textBold);
-  }
+li {
+  text-decoration: none;
+  list-style-type: none;
+  padding: 0;
+  font-weight: var(--textBold);
+}
+p {
+  font-size: 18px;
+  font-weight: var(--textBold);
+}
 
-  .logo {
-    max-width: 200px;
-  }
+.logo {
+  max-width: 250px;
+}
 
-  .res-title {
-    color: var(--colorRed);
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 30px;
-  }
-
-  .res-name {
-    color: var(--colorRed);
-    font-weight: bold;
-    font-size: 30px;
-  }
-
-  /* custom li */
-  .li-title {
-    text-decoration: none;
-    color: black;
-  }
-
-  .li-title:hover {
-    color: var(--colorRed);
-  }
-
-  .li-name {
-    color: var(--colorRed);
-    padding-left: 5px;
-  }
-
-  .li-items {
-    margin-bottom: 10px;
-  }
-
-  .location {
-    max-width: 200px;
-  }
-
-  /* custom thanh hr doc */
-  .vertical-hr {
-    border: 0;
-    border-left: 1px solid var(--colorRed);
-    height: 120px;
-    margin-top: 10px;
-    margin-left: 15px;
-    margin-right: 15px;
-  }
-  @media (max-width: 991.98px) {
-    .justify-content-center-lg-down {
-      display: flex;
-      justify-content: center;
-    }
-  }
-  @media (min-width: 992px) {
-    .justify-content-end-lg-up {
-      display: flex;
-      justify-content: flex-end;
-    }
-  }
+.res-title {
+  color: var(--colorRed);
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 30px;
   
-  
+}
+
+.res-name {
+  color: var(--colorRed);
+  font-weight: bold;
+  font-size: 30px;
+}
+
+/* custom li */
+.li-title {
+  text-decoration: none;
+  color: black;
+}
+
+.li-title:hover {
+  color: var(--colorRed);
+}
+
+.li-name {
+  color: var(--colorRed);
+  padding-left: 5px;
+}
+
+.li-items {
+  margin-bottom: 15px;
+}
+
+.location {
+  max-width: 200px;
+}
+
+/* custom thanh hr doc */
+.vertical-hr {
+  border: 0;
+  border-left: 1px solid var(--colorRed);
+  height: 120px;
+  margin-top: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+@media (max-width: 991.98px) {
+  .justify-content-center-lg-down {
+    display: flex;
+    justify-content: center;
+  }
+}
+@media (min-width: 992px) {
+  .justify-content-end-lg-up {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+

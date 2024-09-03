@@ -1,0 +1,315 @@
+/* Áp dụng cho iPad và các thiết bị có màn hình nhỏ hơn (bao gồm iPhone) */
+@media only screen and (max-width: 767px) {
+  /* Đặt thuộc tính ở đây */
+  .radio-md {
+    display: flex;
+  }
+  .hr-md {
+    display: none;
+  }
+}
+
+/* radio button */
+.radio-input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.radio-input * {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.radio-input label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Đảm bảo các phần tử cách đều nhau */
+  gap: 15px;
+  padding: 0px 20px;
+  width: 220px;
+  cursor: pointer;
+  height: 40px;
+  position: relative;
+}
+
+.radio-input label::before {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 220px;
+  height: 40px;
+  z-index: -1;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border-radius: 5px;
+  border: 2px solid transparent;
+}
+
+.radio-input label:hover::before {
+  transition: all 0.2s ease;
+  background-color: #b9cbff;
+}
+
+.radio-input .label:has(input:checked)::before {
+  background-color: #b9cbff;
+  height: 40px;
+}
+
+.radio-input .label .text {
+  color: #000000;
+  font-weight: bold;
+  flex-grow: 1;
+  /* Đẩy phần text ra phía bên trái */
+}
+
+.radio-input .label .count {
+  color: #666666;
+  font-weight: normal;
+  margin-left: auto;
+  /* Đẩy phần count về phía bên phải */
+}
+
+.radio-input .label input[type="radio"] {
+  background-color: #9d9da8;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radio-input .label input[type="radio"]:checked {
+  background-color: #435dd8;
+  -webkit-animation: pulse 0.7s forwards;
+  animation: pulse 0.7s forwards;
+}
+
+.radio-input .label input[type="radio"]:before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  transition: all 0.1s cubic-bezier(0.165, 0.84, 0.44, 1);
+  background-color: #fff;
+  transform: scale(0);
+}
+
+.radio-input .label input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+/* search */
+/* From Uiverse.io by sabbircoder07 */
+.search {
+  flex: 0 0 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search__input {
+  font-family: "Open Sans", sans-serif;
+  font-size: 17px;
+  color: #333333;
+  background-color: #f4f2f2;
+  border: none;
+  padding: 14px 72px 14px 42px;
+  border-radius: 1000px;
+  width: 93%;
+  margin-left: -34px;
+  margin-right: -66px;
+  transition: all 0.2s;
+}
+
+.search__input:focus {
+  outline: none;
+  width: 100%;
+  background-color: #f0eeee;
+}
+
+.search__input::-webkit-input-placeholder {
+  font-size: 12px;
+  letter-spacing: 5px;
+  font-weight: 500;
+  color: #999999;
+}
+
+.search__button {
+  border: none;
+  background-color: transparent;
+  z-index: 999;
+  cursor: pointer;
+}
+
+.search__button:focus {
+  outline: none;
+}
+
+.search__button:active {
+  transform: translateY(2px);
+}
+
+.search__icon {
+  height: 20px;
+  width: 20px;
+  fill: #999999;
+}
+
+.mic__button {
+  border: none;
+  background-color: transparent;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.mic__button:focus {
+  outline: none;
+}
+
+.mic__button:active {
+  transform: translateY(2px);
+}
+
+.mic__icon {
+  height: 28px;
+  width: 20px;
+  fill: #999999;
+}
+
+.mic__icon:hover {
+  fill: #dd5e89;
+}
+
+.picture__button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.picture__button:focus {
+  outline: none;
+}
+
+.picture__button:active {
+  transform: translateY(2px);
+}
+
+.picture__icon {
+  height: 16px;
+  width: 20px;
+  fill: #999999;
+}
+
+.picture__icon:hover {
+  fill: #dd5e89;
+}
+
+/* card */
+/* From Uiverse.io by alexruix */
+.card {
+  width: 300px;
+  padding: 0.8em;
+  background: #f5f5f5;
+  position: relative;
+  overflow: visible;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.585), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.card-img {
+  cursor: pointer;
+  background-color: #ffcaa686;
+  height: 40%;
+  width: 100%;
+  border-radius: 0.5rem;
+  transition: 0.3s ease;
+}
+
+.card-info {
+  padding-top: 10%;
+}
+
+svg {
+  width: 30px;
+  height: 30px;
+}
+
+.card-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid #f76464;
+}
+
+/*Text*/
+.text-title {
+  font-weight: 900;
+  font-size: 1.2em;
+  line-height: 1.5;
+}
+
+.text-body {
+  font-size: 0.9em;
+  padding-bottom: 10px;
+}
+
+/*Button*/
+.card-button {
+  border: 1px solid #e75f5f;
+  display: flex;
+  padding: 0.3em;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: 0.3s ease-in-out;
+}
+
+/*Hover*/
+.card-img:hover {
+  transform: translateY(-25%);
+  box-shadow: rgba(226, 115, 63, 0.25) 0px 13px 47px -5px,
+    rgba(180, 71, 71, 0.3) 0px 8px 16px -8px;
+}
+
+.card-button:hover {
+  border: 1px solid #ffcaa6;
+  background-color: #ffcaa6;
+}
+
+/* search result */
+.search-results {
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.search-results .list-group-item {
+  cursor: pointer;
+}
+
+.search-results .list-group-item:hover {
+  background-color: #f8f9fa;
+}

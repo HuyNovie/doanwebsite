@@ -4,8 +4,8 @@ import location from "../../assets/imgLocation.png";
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { FaMapMarkerAlt, FaPhone, FaEnvelope } from "react-icons/fa";
-import { FaFacebookF } from "react-icons/fa";
-import { SiTiktok } from "react-icons/si";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faFacebookMessenger, faTiktok } from '@fortawesome/free-brands-svg-icons';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const listAbout = [
@@ -48,7 +48,7 @@ const listLink = [
   {
     id: 2,
     title: "Thực đơn",
-    path: "/",
+    path: "/menu",
   },
   {
     id: 3,
@@ -70,19 +70,22 @@ const listLink = [
 const listFanpage = [
   {
     id: 1,
-    icon: <FaFacebookF />,
-    path: "",
+    icon: <FontAwesomeIcon icon={faFacebook} style={{ color: "#2b39fd"}} size="2xl" />,
+    title:"Korean Kuisine",
+    path: "/",
   },
   {
     id: 2,
-    icon: <SiTiktok />,
-    path: "",
+    icon: <FontAwesomeIcon icon={faFacebookMessenger} style={{ color: "#2b39fd" }} size="2xl" />,
+    title:"Korean Kuisine",
+    path: "/",
   },
   {
     id: 3,
-    icon: <FaFacebookF />,
-    path: "",
-  },
+    icon: <FontAwesomeIcon icon={faTiktok} size="2xl" />,
+    title:"Korean Kuisine",
+    path: "/",
+  }
 ];
 
 const Footer = () => {
@@ -114,7 +117,7 @@ const Footer = () => {
         </Col>
       </Row>
       <Row>
-        <Col xs={12} md={4} className="footer-section">
+        <Col xs={12} md={3} className="footer-section">
           <h3 className="res-title">Liên Hệ</h3>
           <ul className="list list-about">
             {listAbout.map((about) => (
@@ -127,7 +130,7 @@ const Footer = () => {
             ))}
           </ul>
         </Col>
-        <Col xs={6} md={4} className="footer-section">
+        <Col xs={6} md={3} className="footer-section">
           <h3 className="res-title">Liên kết</h3>
           <ul className="list list-link">
             {listLink.map((link) => (
@@ -139,29 +142,31 @@ const Footer = () => {
             ))}
           </ul>
         </Col>
-        <Col xs={6} md={4} className="footer-section">
+        <Col xs={6} md={3} className="footer-section">
           <h3 className="res-title">Fanpage</h3>
           <ul className="list list-link">
             {listFanpage.map((fanpage) => (
               <li key={fanpage.id} className="li-items">
                 <a href={fanpage.path} className="li-title red">
-                  {fanpage.icon}
+                  {fanpage.icon} <span >{fanpage.title}</span> 
                 </a>
               </li>
             ))}
           </ul>
-          <Row>
-            <h3 className="res-title">Bản đồ</h3>
-            <Col>
-              <img src={location} className="location" />
-              <h4>Cơ sở 1</h4>
-            </Col>
-            <Col>
-              <img src={location} className="location" />
-              <h4>Cơ sở 2</h4>
-            </Col>
-          </Row>
         </Col>
+        <Col xs={6} md={3} className="footer-section">
+          <Row>
+              <h3 className="res-title">Bản đồ</h3>
+              <Col>
+                <img src={location} className=" location" />
+                <h4>Cơ sở 1</h4>
+              </Col>
+              <Col>
+                <img src={location} className="location" />
+                <h4>Cơ sở 2</h4>
+              </Col>
+            </Row>
+        </Col >
       </Row>
       <Row>
         <Col>
@@ -180,3 +185,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
