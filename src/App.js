@@ -7,6 +7,9 @@ import Menu from "./pages/Menu";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Booking from "./pages/Booking";
+import Checkout from "./pages/Checkout";
+import ProductDetails from "./pages/Productdetails";
 
 const App = () => {
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,8 +43,11 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/menu" element={<Menu />} />
+          <Route path="/product/:id" element={<ProductDetails/>} /> 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/booking" element={<Booking/>} />
+          <Route path="/checkout" element={<Checkout/>}/>
         </Routes>
       </div>
       <Footer />

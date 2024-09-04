@@ -1,8 +1,7 @@
-* {
+*{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
 }
 
 .navbar {
@@ -11,8 +10,8 @@
   top: 0;
   display: flex;
   width: 100%;
+  padding: 0  6% !important;
   justify-content: space-between;
-  padding: 15px;
   font-weight: 600;
   transition: padding 0.3s;
   z-index: 1000;
@@ -44,6 +43,8 @@
 .navbar.small img {
   transform: scale(0.8);
 }
+
+
 
 .logo {
   cursor: pointer;
@@ -84,23 +85,32 @@
   display: flex;
 }
 
+
+.dropdown-toggle::after {
+  content: none !important;
+}
+
 .btn-item {
   height: 40px;
-  width: 40px;
+  width: 40px ;
   display: grid;
-  place-items: center;
-  border-radius: 50%;
-  border: none;
-  background-color: black;
-  color: white;
-  font-size: 200%;
+  place-items: center !important;
+  border-radius: 50% !important;
+  border: none !important;
+  background-color: black !important;
+  color: white ;
+  font-size: 150%;
   cursor: pointer;
 }
 
 .card-item {
   margin-right: 25px;
+
 }
 
 .singin-item {
-  margin-left: 25px;
+  margin-left: 25px ; 
 }
+
+
+

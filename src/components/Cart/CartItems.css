@@ -1,0 +1,38 @@
+/* custom css card*/
+.center-td {
+    text-align: center;
+    vertical-align: middle;
+  }
+  .img-fluid {
+    width: 75px;
+  }
+  
+  .card-img-top {
+    height: 25px;
+  }
+  
+  
+  .cart-dropdown {
+    width: 600px;
+  }
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+}
+
+.quantity-controls .item-quantity {
+    margin-right: 10px;
+}
+
+.quantity-controls button {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 0;
+}
+
+.center-td span {
+    display: block;
+    word-wrap: break-word;
+}

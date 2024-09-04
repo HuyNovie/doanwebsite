@@ -3,7 +3,11 @@ import "./Navbar.css";
 import Logo from "../../assets/food/logo.png";
 import { IoCartOutline, IoPersonCircleSharp } from "react-icons/io5";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link} from "react-router-dom";
+import Dropdown from 'react-bootstrap/Dropdown';
+import CartItems from "../Cart/CartItems";
+import { useShoppingContext } from "../../contexts/ShoppingContext";
+import { formatCurrency } from "../../helpers/common";
 
 const navMenu = [
   {
@@ -15,7 +19,7 @@ const navMenu = [
   {
     id: 2,
     title: "Đặt bàn",
-    path: "/about",
+    path: "/booking",
     delay: 0.2,
   },
   {
@@ -56,6 +60,11 @@ const SlideDown = (delay) => {
 };
 
 const Navbar = () => {
+
+  const {cartItems,cartQty,totalPrice} = useShoppingContext()
+  
+
+
   // Điều hướng tới trang login
   const navigate = useNavigate();
 
@@ -121,9 +130,42 @@ const Navbar = () => {
         initial="initial"
         animate="animate"
       >
-        <button className="btn-item card-item">
+          <Dropdown>
+        <Dropdown.Toggle className="btn-item card-item">
           <IoCartOutline />
-        </button>
+          {cartQty > 0 && (
+        <span className="position-absolute top-0 start-1 badge badge-pill bg-danger">
+          {cartQty}
+        </span>
+      )}
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <ul className=" dropdown-menu-end cart-dropdown p-3" aria-labelledby="navbarDropdownCart">
+            <li>
+              <h3 className="dropdown-item">Giỏ hàng của tôi</h3>
+            </li>
+            <li>
+              <hr className="dropdown-divider" />
+            </li>
+            <li>
+              <div className="table-responsive">
+                <table className="table">
+                  <tbody>
+                  {cartItems.map(item => {
+                     return <CartItems key={item.id} {...item} />
+                     })}
+                  </tbody>
+                </table>
+              </div>
+            </li>
+            <li className="d-flex justify-content-between align-items-center">
+              <span className="ms-2"><strong>Tổng tiền: </strong><strong className="text-danger px-2">{formatCurrency(totalPrice)}</strong></span>
+              <Link to='/checkout' className='btn btn-sm btn-success me-2'>Kiểm tra</Link>
+            </li>
+          </ul>
+        </Dropdown.Menu>
+      </Dropdown>
+
         <button className="btn-item singin-item" onClick={goToLogin}>
           <IoPersonCircleSharp />
         </button>

@@ -6,7 +6,6 @@ import gacayphomai from "../../assets/food/gacayphomai.png";
 import ricemix from "../../assets/food/ricemix.png";
 import { IoCartOutline } from "react-icons/io5";
 import "./Food.css";
-import Carousel from "react-bootstrap/Carousel";
 
 // controlled carousel cua boostrap
 
