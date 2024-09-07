@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Booking from "./pages/Booking";
 import Checkout from "./pages/Checkout";
+import Profile from "./pages/Profile";
 import ProductDetails from "./pages/Productdetails";
 
 const App = () => {
@@ -59,6 +60,7 @@ const App = () => {
           <Route path="/menu" element={<Menu />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/register" element={<Register />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/checkout" element={<Checkout />} />

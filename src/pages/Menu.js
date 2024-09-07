@@ -272,7 +272,7 @@ const Menu = () => {
       <Row className="center-container">
         <Col className="content" xs={12} md={8}>
           <div>
-            <Carousel>
+            <Carousel data-bs-theme="dark" slide touch="true">
               {Banner.map((banner) => (
                 <Carousel.Item key={banner.id}>
                   <img
