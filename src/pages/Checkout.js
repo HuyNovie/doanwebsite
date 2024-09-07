@@ -8,7 +8,6 @@ import { FaRegTrashAlt } from "react-icons/fa"
 
 
 const Checkout = () => {
-
     const navigate = useNavigate()
     const { cartItems, totalPrice, increaseQty, decreaseQty, removeCartItem, clearCart } = useShoppingContext()
 

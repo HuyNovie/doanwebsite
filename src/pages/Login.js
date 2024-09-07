@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Login_Register.css";
+import {login} from '../services/authService';
 import { Button, Input } from "antd";
 import { Link } from "react-router-dom";
 import { FaUser, FaEyeSlash, FaEye } from "react-icons/fa";
@@ -58,33 +59,14 @@ const Login = () => {
 
     if (usernameValid && passwordValid) {
       try {
-        const response = await fetch(
-          "http://localhost:8080/identity/auth/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username: user.username,
-              mail: user.username, 
-              phone: user.username,
-              password: user.password
-            }),
-          }
-        );
-
+        const response = await login(usernameValid, passwordValid);
+        
         const data = await response.json();
         if (data.result && data.result.authenticated) {
           console.log("Login successful:", data.result);
-
-          localStorage.setItem("token", data.result.token);
-          window.location.href = "/";
-        }
-        if (data.code === 1005) {
+        } else if (data.code === 1005) {
           setErrorMessage("Tài khoản không tồn tại");
-        }
-        if (data.code === 1006) {
+        } else if (data.code === 1006) {
           setErrorMessage("Mật khẩu không chính xác!");
         }
       } catch (error) {

@@ -1,12 +1,16 @@
-/* Áp dụng cho iPad và các thiết bị có màn hình nhỏ hơn (bao gồm iPhone) */
 @media only screen and (max-width: 767px) {
-  /* Đặt thuộc tính ở đây */
   .radio-md {
     display: flex;
   }
   .hr-md {
     display: none;
   }
+  .xs-none {
+    display: none;
+  }
+}
+.xs-none {
+  display: block;
 }
 
 /* radio button */
@@ -26,7 +30,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* Đảm bảo các phần tử cách đều nhau */
   gap: 15px;
   padding: 0px 20px;
   width: 220px;
@@ -313,3 +316,17 @@ svg {
 .search-results .list-group-item:hover {
   background-color: #f8f9fa;
 }
+.center {
+  display: flex;
+  justify-content: center; 
+  align-items: center;  
+}
+.center-container {
+  display: flex;
+  justify-content: center;
+}
+.sort-info {
+  font-weight: bold;
+  color: #8cff00;
+}
+

@@ -23,6 +23,28 @@ import {
   faMagnifyingGlass,
   faMicrophone,
 } from "@fortawesome/free-solid-svg-icons";
+import bannerOpenTime from "../assets/Banner/openTime.jpg";
+import bannerBooking from "../assets/Banner/booking.jpg";
+import bannerShip from "../assets/Banner/ship.jpg";
+import pic1 from "../assets/Banner/kimchi2.jpeg";
+import pic2 from "../assets/Banner/samgyeopsal2.jpeg";
+import pic3 from "../assets/Banner/soondae2.jpeg";
+
+const top3Pic = [
+  { id: 1, text: "kimchi", icon: pic1 },
+  { id: 2, text: "samgyeopsal", icon: pic2 },
+  { id: 3, text: "soondae", icon: pic3 },
+];
+const Banner = [
+  {
+    id: 1,
+    text: "Thời gian hoạt động",
+    title: "Banner thời gian hoạt động",
+    icon: bannerOpenTime,
+  },
+  { id: 2, text: "Đặt chỗ", title: "Banner booking", icon: bannerBooking },
+  { id: 3, text: "Giao hàng", title: "Banner giao hàng", icon: bannerShip },
+];
 
 const Menu = () => {
   const [listType, setListType] = useState([
@@ -49,7 +71,10 @@ const Menu = () => {
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedSearchTerm, setDebouncedSearchTerm]  = useDebounce(searchTerm, 500);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useDebounce(
+    searchTerm,
+    500
+  );
   const [products, setProducts] = useState([]);
   const [selectedNameValue, setSelectedNameValue] = useState(1);
   const [selectedRatingValue, setSelectedRatingValue] = useState(null);
@@ -156,11 +181,11 @@ const Menu = () => {
   }, [debouncedSearchTerm]);
 
   const handleKeyPress = (event) => {
-    if(event.key === 'Enter') {
+    if (event.key === "Enter") {
       setDebouncedSearchTerm(searchTerm);
       fetchSearchResults();
     }
-  }
+  };
 
   const updateCounts = (result) => {
     setListType((prevListType) =>
@@ -205,7 +230,7 @@ const Menu = () => {
   useEffect(() => {
     if (!initialLoadDone) {
       loadProduct(true);
-      setInitialLoadDone(true); 
+      setInitialLoadDone(true);
     } else if (debouncedSearchTerm.length > 0) {
       fetchSearchResults();
     } else {
@@ -221,7 +246,15 @@ const Menu = () => {
     initialLoadDone,
   ]);
 
+  const [sortOrder, setSortOrder] = useState(null);
+
   const handleSort = (key, ascending) => {
+    if (key === null) {
+      // Không sắp xếp
+      setSortOrder(null);
+      return;
+    }
+
     const sortedProducts = [...products].sort((a, b) => {
       if (ascending) {
         return a[key] - b[key];
@@ -229,28 +262,55 @@ const Menu = () => {
         return b[key] - a[key];
       }
     });
+
     setProducts(sortedProducts);
+    setSortOrder({ key, ascending });
   };
 
   return (
-    <Container fluid className="menu-container mt-4">
-      <Row>
-        // {/* carousel */}
-        <Carousel>
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src="your-image-source.jpg"
-              alt="First slide"
-            />
-            <Carousel.Caption>
-              <h3>First slide label</h3>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-        </Carousel>
+    <Container fluid className="mt-4">
+      <Row className="center-container">
+        <Col className="content" xs={12} md={8}>
+          <div>
+            <Carousel>
+              {Banner.map((banner) => (
+                <Carousel.Item key={banner.id}>
+                  <img
+                    src={banner.icon}
+                    alt={banner.title}
+                    style={{
+                      width: "100%",
+                      height: "500px",
+                      objectFit: "cover",
+                      margin: "auto",
+                    }}
+                  />
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          </div>
+        </Col>
+        <Col md={4} className="content xs-none">
+          <div>
+            {top3Pic.map((list) => (
+              <div key={list.id}>
+                <img
+                  src={list.icon}
+                  alt={list.text}
+                  style={{
+                    width: "100%",
+                    maxWidth: "480px",
+                    height: "160px",
+                    objectFit: "cover",
+                    marginBottom: "10px",
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        </Col>
       </Row>
-      <Row>
+      <Row className=" mt-2">
         <Col xs={12} md={2}>
           <div className=" radio-md">
             {/* list type  */}
@@ -289,7 +349,7 @@ const Menu = () => {
                     src={rating.icon}
                     alt={`${rating.title} icon`}
                     style={{
-                      width: "45px",
+                      width: "55px",
                       height: "20px",
                       marginRight: "10px",
                     }}
@@ -318,16 +378,16 @@ const Menu = () => {
             </div>
           </div>
           {/* button reset */}
-          <div>
+          <div className="center mt-1">
             <button
-              className="btn btn-warning"
+              className="btn btn-primary"
               onClick={() => resetSelections()}
             >
               Reset
             </button>
           </div>
         </Col>
-        <Col xs={12} md={8}>
+        <Col className="content" xs={12} md={8}>
           {/* search */}
           <Row>
             <Col xs={10} md={10}>
@@ -365,15 +425,36 @@ const Menu = () => {
             <Col xs={2} md={2}>
               <div className="mt-2">
                 <Dropdown>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Sắp xếp theo giá
+                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                    Sắp xếp:
+                    {/* Hiển thị thông tin sắp xếp hiện tại */}
+                    <span className="sort-info">
+                      {sortOrder
+                        ? sortOrder.key === "price"
+                          ? sortOrder.ascending
+                            ? " Giá: tăng dần"
+                            : " Giá: giảm dần"
+                          : sortOrder.ascending
+                          ? " Đánh giá: tăng dần"
+                          : " Đánh giá: giảm dần"
+                        : " Không"}
+                    </span>
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => handleSort(null, null)}>
+                      Không sắp xếp
+                    </Dropdown.Item>
                     <Dropdown.Item onClick={() => handleSort("price", true)}>
-                      Tăng dần
+                      Giá: tăng dần &#9650;
                     </Dropdown.Item>
                     <Dropdown.Item onClick={() => handleSort("price", false)}>
-                      Giảm dần
+                      Giá: giảm dần &#9660;
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleSort("rating", true)}>
+                      Đánh giá: tăng dần &#9650;
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleSort("rating", false)}>
+                      Đánh giá: giảm dần &#9660;
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
@@ -381,9 +462,9 @@ const Menu = () => {
             </Col>
           </Row>
           {/* loader */}
-          <Row>
+          <Row className="center mt-3">
             {loading && (
-              <div className="spinner-border " role="status">
+              <div className="spinner-border" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
             )}

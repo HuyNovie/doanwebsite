@@ -25,61 +25,38 @@ export const ShoppingContextProvider = ({ children }) => {
     useEffect(() => {
         localStorage.setItem('shopping_cart', JSON.stringify(cartItems));
     }, [cartItems]);
+    
 
     const cartQty = cartItems.reduce((qty, item) => qty + item.qty, 0);
     const totalPrice = cartItems.reduce((total, item) => total + item.qty * item.price, 0);
 
-    const increaseQty = (id) => {
-        const currentCartItem = cartItems.find(item => item.id === id);
-        if (currentCartItem) {
-            const newItems = cartItems.map(item => {
-                if (item.id === id) {
-                    return { ...item, qty: item.qty + 1 };
-                } else {
-                    return item;
-                }
-            });
-            setCartItems(newItems);
-        }
+    const updateQty = (id, delta) => {
+        setCartItems(cartItems.map(item =>
+            item.id === id ? { ...item, qty: item.qty + delta } : item
+        ));
     };
-
+    
+    const increaseQty = (id) => {
+        updateQty(id, 1);
+    };
+    
     const decreaseQty = (id) => {
         const currentCartItem = cartItems.find(item => item.id === id);
-        if (currentCartItem) {
-            if (currentCartItem.qty === 1) {
-                removeCartItem(id);
-            } else {
-                const newItems = cartItems.map(item => {
-                    if (item.id === id) {
-                        return { ...item, qty: item.qty - 1 };
-                    } else {
-                        return item;
-                    }
-                });
-                setCartItems(newItems);
-            }
+        if (currentCartItem && currentCartItem.qty === 1) {
+            removeCartItem(id);
+        } else {
+            updateQty(id, -1);
         }
     };
-
+    
     const addCartItem = (product, quantity = 1) => {
         const currentCartItem = cartItems.find(item => item.id === product.id);
         if (currentCartItem) {
-            const newItems = cartItems.map(item => {
-                if (item.id === product.id) {
-                    return { ...item, qty: item.qty + quantity };
-                } else {
-                    return item;
-                }
-            });
-            setCartItems(newItems);
+            updateQty(product.id, quantity);
         } else {
-            const newItem = { ...product, qty: quantity };
-            setCartItems([...cartItems, newItem]);
+            setCartItems([...cartItems, { ...product, qty: quantity }]);
         }
     };
-    
-
-    
 
     const removeCartItem = (id) => {
         const newItems = cartItems.filter(item => item.id !== id);
