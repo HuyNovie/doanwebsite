@@ -1,10 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import FoodPng from "../../assets/food/food2-plate.png";
-import Spoon from "../../assets/food/spoon.png";
-import Banana from "../../assets/food/banana.png";
 import Leaf from "../../assets/food/leaf.png";
-import organic from "../../assets/food/organicFood.png";
 import { IoCartOutline } from "react-icons/io5";
 import "./Slider.css";
 import Carousel from "react-bootstrap/Carousel";

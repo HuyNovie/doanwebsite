@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Login_Register.css";
 import { login } from "../services/authService";
 import { Button, Input } from "antd";
-import { Link, Navigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { FaUser, FaEyeSlash, FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 

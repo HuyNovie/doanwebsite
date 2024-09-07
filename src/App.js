@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import api from "./api/axios";
 import { logout } from "./services/authService";
@@ -13,11 +13,14 @@ import Booking from "./pages/Booking";
 import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import ProductDetails from "./pages/Productdetails";
+import Loading from './components/Loading/Loading';
 
 const App = () => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
-  //check jwt khi load web
+  // check jwt khi load web
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     if (token) {
@@ -31,12 +34,16 @@ const App = () => {
           } else {
             console.log("Token hết hạn");
             logout();
+            setLoading(false);
           }
         })
         .catch((error) => {
           console.error("Authorized token failed", error);
           logout();
+          setLoading(false);
         });
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -44,12 +51,18 @@ const App = () => {
     api
       .get("/users/my-info")
       .then((response) => {
-        setUser(response.data); //luu thong tin ng dung vao state
+        setUser(response.data); // lưu thông tin người dùng vào state
+        setLoading(false);
       })
       .catch((error) => {
-        console.error("Khong the lay du lieu", error);
+        console.error("Không thể lấy dữ liệu", error);
+        setLoading(false);
       });
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>
