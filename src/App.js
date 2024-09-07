@@ -14,6 +14,7 @@ import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import ProductDetails from "./pages/Productdetails";
 import Loading from './components/Loading/Loading';
+import AdminProfile from './pages/AdminProfile'; 
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -77,6 +78,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/admin" element={<AdminProfile />} />
         </Routes>
       </div>
       <Footer />
