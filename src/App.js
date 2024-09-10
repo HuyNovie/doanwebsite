@@ -14,8 +14,12 @@ import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import ProductDetails from "./pages/Productdetails";
 import Loading from './components/Loading/Loading';
+// <<<<<<< HEAD
 import Contact from "./pages/Contact";
 import Introduce from "./pages/Introduce";
+// =======
+import AdminProfile from './pages/AdminProfile'; 
+// >>>>>>> 6d3b1199a7605639f3880d0b0d3d1d48671e6bae
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -81,6 +85,7 @@ const App = () => {
           <Route path="/introduce" element={<Introduce/>} />
           <Route path="/contact" element={<Contact/>} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/admin" element={<AdminProfile />} />
         </Routes>
       </div>
       <Footer />
