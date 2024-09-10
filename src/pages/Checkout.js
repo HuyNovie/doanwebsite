@@ -12,7 +12,7 @@ const Checkout = () => {
     const { cartItems, totalPrice, increaseQty, decreaseQty, removeCartItem, clearCart } = useShoppingContext()
 
   return (
-    <div className="row" style={{padding:"2% 8%",marginRight: 0}}>
+    <div className="row" style={{padding:"2% 8%",marginRight: 0,marginTop: "130px"}}>
     <h3>Giỏ hàng</h3>
     <table className="table table-hover">
         <thead>

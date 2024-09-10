@@ -155,7 +155,7 @@ const Register = () => {
   };
 
   return (
-    <div className="wrapper">
+    <div className="wrapper" style={{marginTop: "150px"}}>
       <form onSubmit={handleSubmit}>
         <h1 className="text-center">Đăng kí</h1>
         <div className="form-group">

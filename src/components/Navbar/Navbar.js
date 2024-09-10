@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import "./Navbar.css";
 import Logo from "../../assets/food/logo.png";
-import { IoCartOutline } from "react-icons/io5";
 import { motion } from "framer-motion";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation, NavLink } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import CartItems from "../Cart/CartItems";
 import { useShoppingContext } from "../../contexts/ShoppingContext";
 import { formatCurrency } from "../../helpers/common";
 import { FaUser, FaSignInAlt } from "react-icons/fa";
+import { IoCartOutline } from "react-icons/io5";
+import { TfiMenu } from "react-icons/tfi";
 
 const navMenu = [
   { id: 1, title: "Trang chủ", path: "/", delay: 0.1 },
   { id: 2, title: "Đặt bàn", path: "/booking", delay: 0.2 },
   { id: 3, title: "Thực đơn", path: "/menu", delay: 0.3 },
-  { id: 4, title: "Vận chuyển", path: "/deliver", delay: 0.4 },
+  { id: 4, title: "Giới thiệu", path: "/introduce", delay: 0.4 },
   { id: 5, title: "Liên hệ", path: "/contact", delay: 0.5 },
 ];
 
@@ -25,7 +26,8 @@ const SlideDown = (delay) => ({
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate(); // Khai báo navigate ở đây
+  const navigate = useNavigate();
+  const location = useLocation(); 
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
@@ -55,6 +57,35 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  //nut menu tren mobie
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+  const buttonRef = useRef(null); // Thêm ref cho nút toggle
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen); // Chuyển đổi trạng thái menu
+  };
+
+  const handleClickOutside = (e) => {
+    // Đóng menu khi nhấp chuột nằm ngoài menu và nút toggle
+    if (menuRef.current && !menuRef.current.contains(e.target) && !buttonRef.current.contains(e.target)) {
+      setMenuOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
+
+
   return (
     <div id="navbar" className={`navbar ${smallNavbar ? "small" : ""}`}>
       {/* Logo */}
@@ -66,9 +97,9 @@ const Navbar = () => {
         alt="Logo"
         className="logo"
       />
-
-      {/* Menu */}
-      <div className="menu">
+  {/* Nút chuyển đổi menu di động */}
+  <button ref={buttonRef} className="menu-toggle" onClick={toggleMenu}><TfiMenu /></button>
+      <div ref={menuRef} className={`menu ${menuOpen ? "active" : ""}`}>
         <ul className="nav-menu">
           {navMenu.map((menu) => (
             <motion.li
@@ -77,16 +108,17 @@ const Navbar = () => {
               animate="animate"
               key={menu.id}
               className="nav-items"
-              data-delay={menu.delay}
+              data-delay={menu.delay}>
+             <NavLink
+              to={menu.path} 
+              className={({ isActive }) => isActive ? "menu-title active" : "menu-title"} 
             >
-              <a href={menu.path} className="menu-title">
-                {menu.title}
-              </a>
-            </motion.li>
-          ))}
-        </ul>
-      </div>
-
+              {menu.title}
+            </NavLink>
+          </motion.li>
+        ))}
+      </ul>
+    </div>
       {/* Button */}
       <motion.div
         className="btn-nav"

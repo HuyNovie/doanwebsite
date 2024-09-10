@@ -14,6 +14,8 @@ import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import ProductDetails from "./pages/Productdetails";
 import Loading from './components/Loading/Loading';
+import Contact from "./pages/Contact";
+import Introduce from "./pages/Introduce";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -76,6 +78,8 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/register" element={<Register />} />
           <Route path="/booking" element={<Booking />} />
+          <Route path="/introduce" element={<Introduce/>} />
+          <Route path="/contact" element={<Contact/>} />
           <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </div>
