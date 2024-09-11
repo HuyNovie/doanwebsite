@@ -2,7 +2,7 @@ import api from '../api/axios';
 
 export const login = async (username, password) => {
     try {
-        const response = await api.post('restaurant/auth/login', { username, password });
+        const response = await api.post('/auth/login', { username, password });
         const token = response.data.result.token;
 
         localStorage.setItem('jwtToken', token);

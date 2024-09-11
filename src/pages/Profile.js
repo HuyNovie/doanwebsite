@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/axios';
-import Loading from '../components/Loading/Loading';
 import CustomerProfile from './CustomerProfile.js';
 import AdminProfile from './AdminProfile';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     api.get('restaurant/users/my-info')
       .then(response => {
-        setUser(response.data);
-        setLoading(false);
+        setUser(response.data.result);
       })
       .catch(error => {
         console.error("Không thể lấy dữ liệu người dùng", error);
-        setLoading(false);
       });
   }, []);
 

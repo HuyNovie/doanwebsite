@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useShoppingContext } from '../contexts/ShoppingContext';
 import { formatCurrency } from '../helpers/common';
 import { FaRegTrashAlt } from "react-icons/fa";
-import * as jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const Checkout = () => {
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ const Checkout = () => {
         try {
             const decodedToken = jwtDecode(token);
 
-            console.log(decodedToken); // Kiểm tra cấu trúc token
+            console.log(decodedToken);
 
             const userId = decodedToken.userId || decodedToken.sub;
 

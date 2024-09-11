@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-import jwtDecode from 'jwt-decode'; // Sử dụng cách nhập khẩu đúng
+import { jwtDecode }from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
 const ShoppingContext = createContext();
@@ -26,7 +26,7 @@ export const ShoppingContextProvider = ({ children }) => {
       }
 
       try {
-        const decodedToken = jwtDecode(token); // Không cần .default
+        const decodedToken = jwtDecode(token); 
         const userId = decodedToken.userId || decodedToken.sub;
 
         if (!userId) {

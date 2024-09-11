@@ -4,7 +4,7 @@ import "./Productdetails.css";
 import { useShoppingContext } from "../contexts/ShoppingContext";
 import { formatCurrency } from "../helpers/common";
 import ImageGallery from "react-image-gallery";
-import * as jwtDecode from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import "react-image-gallery/styles/css/image-gallery.css";
 
 const ProductDetails = () => {
@@ -22,9 +22,8 @@ const ProductDetails = () => {
           `http://localhost:8080/restaurant/menu/${productType}/${id}`
         );
         const data = await response.json();
-        const productData = data.result;
-        if (productData) {
-          setProduct(productData);
+        if (data.result) {
+          setProduct(data.result);
         } else {
           console.error("Product not found with ID:", id);
         }
@@ -46,7 +45,6 @@ const ProductDetails = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      // Chuyển hướng tới trang đăng nhập nếu không có token
       navigate("/login");
       return;
     }
@@ -57,15 +55,17 @@ const ProductDetails = () => {
 
       if (!userId) {
         console.error("User ID not found in token");
-        navigate("/login"); // Chuyển hướng nếu không tìm thấy userId trong token
+        navigate("/login");
         return;
       }
 
-      // Thêm sản phẩm vào giỏ hàng nếu token hợp lệ
-      addCartItem({ ...product, thumbnail: product.imageUrl, userId }, quantity);
+      addCartItem(
+        { ...product, thumbnail: product.imageUrl, userId },
+        quantity
+      );
     } catch (error) {
       console.error("Invalid token", error);
-      navigate("/login"); // Chuyển hướng nếu token không hợp lệ
+      navigate("/login");
     }
   };
 
@@ -77,12 +77,11 @@ const ProductDetails = () => {
     return <div>Product not found</div>;
   }
 
-  // Parse images from JSON string if needed
-  const imagesArray = typeof product.images === "string"
-    ? JSON.parse(product.images)
-    : product.images;
+  const imagesArray =
+    typeof product.images === "string"
+      ? JSON.parse(product.images)
+      : product.images;
 
-  // Combine main image with the list of additional images
   const images = [
     {
       original: `http://localhost:8080/restaurant/images/${product.imageUrl}`,
@@ -100,19 +99,19 @@ const ProductDetails = () => {
         <div className="col-md-5 d-flex justify-content-center align-items-center">
           {images.length > 0 ? (
             <ImageGallery
-            items={images}
-            showFullscreenButton={true}
-            showPlayButton={false}
-            showBullets={true}
-            showNav={true}
-            slideDuration={300}
-            slideInterval={5000}
-            thumbnailPosition="bottom"
-            lazyLoad={true}
-            slideOnThumbnailHover={true} 
-            useBrowserFullscreen={false} 
-            additionalClass="custom-image-gallery"
-           />          
+              items={images}
+              showFullscreenButton={true}
+              showPlayButton={false}
+              showBullets={true}
+              showNav={true}
+              slideDuration={300}
+              slideInterval={5000}
+              thumbnailPosition="bottom"
+              lazyLoad={true}
+              slideOnThumbnailHover={true}
+              useBrowserFullscreen={false}
+              additionalClass="custom-image-gallery"
+            />
           ) : (
             <div>No images available</div>
           )}
