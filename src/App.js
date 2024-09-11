@@ -15,6 +15,7 @@ import Profile from "./pages/Profile";
 import ProductDetails from "./pages/Productdetails";
 import Loading from './components/Loading/Loading';
 import AdminProfile from './pages/AdminProfile'; 
+import PaymentConfirmation from './pages/PaymentConfirmation';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -72,11 +73,12 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/menu" element={<Menu />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/menu/:productType/:id" element={<ProductDetails />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/register" element={<Register />} />
           <Route path="/booking" element={<Booking />} />
+          <Route path="/payment-confirmation" element={<PaymentConfirmation />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/admin" element={<AdminProfile />} />
         </Routes>

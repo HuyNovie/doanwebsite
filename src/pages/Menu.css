@@ -9,9 +9,6 @@
     display: none;
   }
 }
-.xs-none {
-  display: block;
-}
 
 /* radio button */
 .radio-input {
@@ -241,10 +238,11 @@
 .card-img {
   cursor: pointer;
   background-color: #ffcaa686;
-  height: 40%;
   width: 100%;
+  height: 200px;
   border-radius: 0.5rem;
   transition: 0.3s ease;
+  object-fit: cover; 
 }
 
 .card-info {

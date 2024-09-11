@@ -10,12 +10,11 @@ const container = document.getElementById("root");
 const root = createRoot(container);
 
 root.render(
-  <ShoppingContextProvider >
-  <BrowserRouter>
   <StrictMode>
-    <App />
+    <BrowserRouter>
+      <ShoppingContextProvider>
+        <App />
+      </ShoppingContextProvider>
+    </BrowserRouter>
   </StrictMode>
-  </BrowserRouter>
-  </ShoppingContextProvider>
- 
 );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/axios';
-import Loading from '../components/Loading';
+import Loading from '../components/Loading/Loading';
 import CustomerProfile from './CustomerProfile.js';
 import AdminProfile from './AdminProfile';
 
@@ -9,7 +9,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/users/my-info')
+    api.get('restaurant/users/my-info')
       .then(response => {
         setUser(response.data);
         setLoading(false);

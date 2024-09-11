@@ -114,7 +114,7 @@ const Register = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:8080/identity/users/register",
+          "http://localhost:8080/restaurant/users/register",
           {
             method: "POST",
             headers: {

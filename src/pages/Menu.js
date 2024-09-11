@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Row,
@@ -47,6 +48,7 @@ const Banner = [
 ];
 
 const Menu = () => {
+  const navigate = useNavigate();
   const [listType, setListType] = useState([
     { id: 1, title: "Tất cả", name: "all", values: 0 },
     { id: 2, title: "Ẩm thực hàn", name: "dish", values: 0 },
@@ -61,7 +63,7 @@ const Menu = () => {
     { id: 1, title: "1 sao", icon: oneStar, values: 0 },
   ]);
 
-  const [listBasicInfo, setListBasicInfo] = useState([
+  const [listDescription, setListDescription] = useState([
     { id: 1, title: "Thịt", values: 0 },
     { id: 2, title: "Canh", values: 0 },
     { id: 3, title: "Món phụ", values: 0 },
@@ -78,7 +80,8 @@ const Menu = () => {
   const [products, setProducts] = useState([]);
   const [selectedNameValue, setSelectedNameValue] = useState(1);
   const [selectedRatingValue, setSelectedRatingValue] = useState(null);
-  const [selectedBasicInfoValue, setSelectedBasicInfoValue] = useState(null);
+  const [selectedDescriptionValue, setSelectedDescriptionValue] =
+    useState(null);
   const [initialLoadDone, setInitialLoadDone] = useState(false);
 
   const typeLookup = useMemo(
@@ -92,13 +95,13 @@ const Menu = () => {
     [listRating]
   );
 
-  const basicInfoLookup = useMemo(
+  const descriptionLookup = useMemo(
     () =>
-      listBasicInfo.reduce(
+      listDescription.reduce(
         (acc, item) => ({ ...acc, [item.id]: item.title }),
         {}
       ),
-    [listBasicInfo]
+    [listDescription]
   );
 
   const [loading, setLoading] = useState(false);
@@ -127,8 +130,11 @@ const Menu = () => {
         if (currentType !== "all") {
           params.append("productType", currentType);
         }
-        if (selectedBasicInfoValue) {
-          params.append("basicInfo", basicInfoLookup[selectedBasicInfoValue]);
+        if (selectedDescriptionValue) {
+          params.append(
+            "description",
+            descriptionLookup[selectedDescriptionValue]
+          );
         }
         if (minRating !== undefined && maxRating !== undefined) {
           params.append("minRating", minRating);
@@ -136,7 +142,7 @@ const Menu = () => {
         }
 
         const response = await fetch(
-          `http://localhost:8080/identity/menu/filter?${params.toString()}`
+          `http://localhost:8080/restaurant/menu/filter?${params.toString()}`
         );
         const data = await response.json();
         if (Array.isArray(data.result)) {
@@ -157,15 +163,15 @@ const Menu = () => {
     [
       getCurrentTypeName,
       getCurrentRating,
-      basicInfoLookup,
-      selectedBasicInfoValue,
+      descriptionLookup,
+      selectedDescriptionValue,
     ]
   );
 
   const fetchSearchResults = useCallback(async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/identity/menu/search?keyword=${debouncedSearchTerm}`
+        `http://localhost:8080/restaurant/menu/search?keyword=${debouncedSearchTerm}`
       );
       const data = await response.json();
       if (data.result) {
@@ -207,13 +213,13 @@ const Menu = () => {
       }))
     );
 
-    setListBasicInfo((prevListBasicInfo) =>
-      prevListBasicInfo.map((basicInfo) => ({
-        ...basicInfo,
+    setListDescription((prevListDescription) =>
+      prevListDescription.map((description) => ({
+        ...description,
         values: result.filter((product) =>
-          product.basicInfo
+          product.description
             .toLowerCase()
-            .includes(basicInfo.title.toLowerCase())
+            .includes(description.title.toLowerCase())
         ).length,
       }))
     );
@@ -222,7 +228,7 @@ const Menu = () => {
   const resetSelections = () => {
     setSelectedNameValue(1);
     setSelectedRatingValue(null);
-    setSelectedBasicInfoValue(null);
+    setSelectedDescriptionValue(null);
     setSearchTerm("");
     loadProduct(true);
   };
@@ -240,7 +246,7 @@ const Menu = () => {
     debouncedSearchTerm,
     selectedNameValue,
     selectedRatingValue,
-    selectedBasicInfoValue,
+    selectedDescriptionValue,
     fetchSearchResults,
     loadProduct,
     initialLoadDone,
@@ -250,7 +256,6 @@ const Menu = () => {
 
   const handleSort = (key, ascending) => {
     if (key === null) {
-      // Không sắp xếp
       setSortOrder(null);
       return;
     }
@@ -266,6 +271,9 @@ const Menu = () => {
     setProducts(sortedProducts);
     setSortOrder({ key, ascending });
   };
+  const handleCardClick = (id, productType) => {
+    navigate(`/menu/${productType}/${id}`);
+};
 
   return (
     <Container fluid className="mt-4">
@@ -311,8 +319,8 @@ const Menu = () => {
         </Col>
       </Row>
       <Row className=" mt-2">
-        <Col xs={12} md={2}>
-          <div className=" radio-md">
+        <Col xs={12} md={2} className="xs-none">
+          <div className="radio-md">
             {/* list type  */}
             <div className="radio-input">
               {listType.map((type) => (
@@ -360,19 +368,19 @@ const Menu = () => {
             </div>
             <hr className="hr-md" />
             <div className="radio-input">
-              {listBasicInfo.map((basicInfo) => (
-                <label key={basicInfo.id} className="label">
+              {listDescription.map((description) => (
+                <label key={description.id} className="label">
                   <input
                     type="radio"
-                    name="basicInfo"
-                    value={basicInfo.id}
-                    checked={selectedBasicInfoValue === basicInfo.id}
+                    name="description"
+                    value={description.id}
+                    checked={selectedDescriptionValue === description.id}
                     onChange={(e) =>
-                      setSelectedBasicInfoValue(parseInt(e.target.value, 10))
+                      setSelectedDescriptionValue(parseInt(e.target.value, 10))
                     }
                   />
-                  <span className="text">{basicInfo.title}</span>
-                  <span className="count">({basicInfo.values})</span>
+                  <span className="text">{description.title}</span>
+                  <span className="count">({description.values})</span>
                 </label>
               ))}
             </div>
@@ -390,7 +398,7 @@ const Menu = () => {
         <Col className="content" xs={12} md={8}>
           {/* search */}
           <Row>
-            <Col xs={10} md={10}>
+            <Col xs={12} md={10}>
               <div className="search search-bar">
                 <button className="search__button">
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -423,12 +431,11 @@ const Menu = () => {
               )}
             </Col>
             {/* sapxep */}
-            <Col xs={2} md={2}>
-              <div className="mt-2">
+            <Col xs={12} md={2}>
+              <div className="mt-2 center">
                 <Dropdown>
                   <Dropdown.Toggle variant="primary" id="dropdown-basic">
                     Sắp xếp:
-                    {/* Hiển thị thông tin sắp xếp hiện tại */}
                     <span className="sort-info">
                       {sortOrder
                         ? sortOrder.key === "price"
@@ -473,11 +480,11 @@ const Menu = () => {
           {/* list product */}
           <Row>
             {(products || []).map((product) => (
-              <Col key={product.id} xs={6} sm={3} md={4}>
-                <Card className="card mb-4">
+              <Col key={product.id} xs={12} sm={6} md={4} className="center">
+                <Card className="card mb-4" onClick={() => handleCardClick(product.id, product.type)} style={{ cursor: 'pointer' }}>
                   <Card.Img
                     variant="top"
-                    src={`http://localhost:8080/images/${product.imageUrl}`}
+                    src={`http://localhost:8080/restaurant/images/${product.imageUrl}`}
                     alt={product.name}
                     className="card-img"
                   />
@@ -486,7 +493,7 @@ const Menu = () => {
                       {product.name}
                     </Card.Title>
                     <Card.Text className="text-body">
-                      {product.basicInfo}
+                      {product.description}
                     </Card.Text>
                     <Card.Text className="text-body">
                       {product.ingredients}
