@@ -12,12 +12,14 @@ const Register = () => {
   const [user, setUser] = useState({
     fullName: "",
     mail: "",
+    phone: "",
     password: "",
     status: 1,
   });
 
   const [fullNameError, setFullNameError] = useState("");
   const [mailError, setMailError] = useState("");
+  const [phoneError, setPhoneError] = useState(""); 
   const [passwordError, setPasswordError] = useState("");
 
   const validateData = (name, value) => {
@@ -42,6 +44,14 @@ const Register = () => {
           } else {
             setMailError("");
           }
+        }
+        break;
+      case "phone":
+        if (!value) {
+          setPhoneError("Vui lòng điền vào mục này.");
+          isValid = false;
+        } else {
+          setPhoneError("");
         }
         break;
       case "password":
@@ -103,14 +113,14 @@ const Register = () => {
 
     const fullNameValid = validateData("fullName", user.fullName);
     const mailValid = validateData("mail", user.mail);
+    const phoneValid = validateData("phone", user.phone);
     const passwordValid = validateData("password", user.password);
 
-    if (fullNameValid && mailValid && passwordValid) {
+    if (fullNameValid && mailValid && phoneValid && passwordValid) { 
       const username = generateUsername(user.fullName);
       const firstName = generateFirstName(user.fullName);
       const lastName = generateLastName(user.fullName);
       const dayOfBirth = "2000-01-01";
-      const phone = "";
 
       try {
         const response = await fetch(
@@ -124,7 +134,7 @@ const Register = () => {
               username,
               password: user.password,
               mail: user.mail,
-              phone,
+              phone: user.phone,
               firstName,
               lastName,
               dayOfBirth,
@@ -155,7 +165,7 @@ const Register = () => {
   };
 
   return (
-    <div className="wrapper">
+    <div className="wrapper" style={{marginTop: "150px"}}>
       <form onSubmit={handleSubmit}>
         <h1 className="text-center">Đăng kí</h1>
         <div className="form-group">
@@ -177,6 +187,16 @@ const Register = () => {
             placeholder="Email"
           />
           {mailError && <p className="error-message">{mailError}</p>}
+        </div>
+        <div className="form-group">
+          <Input
+            type="text"
+            name="phone"
+            onChange={handleChange}
+            status={phoneError ? "error" : ""}
+            placeholder="Số điện thoại"
+          />
+          {phoneError && <p className="error-message">{phoneError}</p>}
         </div>
         <div className="form-group">
           <Input

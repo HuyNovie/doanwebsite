@@ -42,25 +42,25 @@ const ProductDetails = () => {
   };
 
   const handleAddToCart = () => {
-    const token = localStorage.getItem("token");
-
+    const token = localStorage.getItem("jwtToken");
+  
     if (!token) {
       navigate("/login");
       return;
     }
-
+  
     try {
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.userId || decodedToken.sub;
-
+  
       if (!userId) {
         console.error("User ID not found in token");
         navigate("/login");
         return;
       }
-
+  
       addCartItem(
-        { ...product, thumbnail: product.imageUrl, userId },
+        { ...product, thumbnail: product.imageUrl, productId: product.id }, 
         quantity
       );
     } catch (error) {
@@ -68,6 +68,7 @@ const ProductDetails = () => {
       navigate("/login");
     }
   };
+  
 
   if (loading) {
     return <div>Loading...</div>;
@@ -149,7 +150,7 @@ const ProductDetails = () => {
             </button>
           </div>
           <button className="btn btn-success" onClick={handleAddToCart}>
-            Đặt hàng
+            Thêm vào giỏ hàng
           </button>
         </div>
       </div>

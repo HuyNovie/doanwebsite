@@ -13,34 +13,44 @@ import Booking from "./pages/Booking";
 import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import ProductDetails from "./pages/Productdetails";
-import Loading from './components/Loading/Loading';
-import AdminProfile from './pages/AdminProfile'; 
-import PaymentConfirmation from './pages/PaymentConfirmation';
+import Loading from "./components/Loading/Loading";
+import Contact from "./pages/Contact";
+import Introduce from "./pages/Introduce";
+import AdminProfile from "./components/AdminProfile";
+import CustomerProfile from './components/CustomerProfile';
+import PaymentConfirmation from "./pages/PaymentConfirmation";
+import ProductManagement from "./components/ProductManagement";
+import OrderManagement from "./components/OrderManagement";
+import UserManagement from "./components/UserManagement";
+import EditProfile from "./components/EditProfile";
+import MyOrders from "./components/MyOrders";
 
 const App = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
 
-  // check jwt khi load web
   useEffect(() => {
-    const token = localStorage.getItem("jwtToken");
-    if (token) {
+    const jwtToken = localStorage.getItem("jwtToken");
+
+    if (jwtToken) {
       api
         .get("auth/introspect", {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${jwtToken}` },
         })
         .then((response) => {
           if (response.data.result.valid) {
             loadUserData();
           } else {
             console.log("Token hết hạn");
+            localStorage.removeItem("jwtToken");
             logout();
             setLoading(false);
           }
         })
         .catch((error) => {
           console.error("Authorized token failed", error);
+          localStorage.removeItem("jwtToken");
           logout();
           setLoading(false);
         });
@@ -53,7 +63,7 @@ const App = () => {
     api
       .get("/users/my-info")
       .then((response) => {
-        setUser(response.data); // lưu thông tin người dùng vào state
+        setUser(response.data.result); // lưu thông tin người dùng vào state
         setLoading(false);
       })
       .catch((error) => {
@@ -68,7 +78,7 @@ const App = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar user={user} />
       <div className="App">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -79,8 +89,17 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/payment-confirmation" element={<PaymentConfirmation />} />
+          <Route path="/introduce" element={<Introduce />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/admin" element={<AdminProfile />} />
+          <Route path="/admin/product-management" element={<ProductManagement />} />
+          <Route path="/admin/view-products" element={<ProductManagement />} />
+          <Route path="/admin/order-management" element={<OrderManagement />} />
+          <Route path="/admin/user-management" element={<UserManagement />} />
+          <Route path="/customer" element={<CustomerProfile />} />
+          <Route path="/customer/edit-profile" element={<EditProfile />} />
+          <Route path="/customer/my-orders" element={<MyOrders />} />
         </Routes>
       </div>
       <Footer />

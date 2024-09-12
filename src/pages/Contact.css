@@ -1,0 +1,80 @@
+table.boardContact{
+    margin: 0% auto;
+    width: 650px;
+    margin-top: 30px;
+    background-color: #FFE4C4;
+    margin-left: 100px;
+    border-radius: 10px;
+}
+
+table.mapContact{
+    margin: 0% auto;
+    margin-top: 30px;
+}
+
+iframe.map1{
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+iframe.map2{
+    margin-top: 40px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.titleContact{
+    font-weight: bolder;
+    font-size: 30px;
+    margin-left: 90px;
+    margin-top: 20px;
+}
+
+.contactname, .contactemail, .contactphone, .contactnote{
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 90px;
+
+}
+
+input.contactname, input.contactemail, input.contactphone {
+    margin-left: 90px;
+    width: 350px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    height: 40px;
+    font-weight: 500;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    border: 0px;
+    outline: 0px;
+}
+
+textarea.contactnote{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    border-radius: 15px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    border: 0px;
+}
+
+.buttonContact2{
+    margin-left: 90px;
+    font-size: 20px;
+    width: 180px;
+    height: 40px;
+    border-radius: 20px;
+    font-weight: bolder;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    color: white;
+    background-color: black;
+    outline: 0px;
+    border: 0px;
+}
+
+.buttonContact2:hover{
+    transition: 0.3s;
+    background:#FAFAD2;
+    color: red;
+
+}

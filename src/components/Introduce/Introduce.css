@@ -1,0 +1,44 @@
+.hr-degisn {
+    border: 3px solid rgb(215, 165, 65);
+    border-radius: 5px;
+    width: 50px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+ 
+.suptitle {
+    position: relative;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    padding: 35px 0 15px 0;
+}
+.button-see {
+    text-decoration: none;
+    color: #000;
+    background-color: rgb(215, 165, 65);
+    padding: 12px;
+    font-weight: 500;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+.tst-title-text {
+    margin-bottom: 30px;
+}
+
+.tst-text {
+    color: rgb(69, 91, 90);
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+

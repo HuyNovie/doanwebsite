@@ -1,15 +1,18 @@
 import React from "react";
 import Slider from "../components/Slider/Slider"
-import Contact from "../components/Contact/Contact";
-import Food from "../components/Food/Food";
+import Characteristic from "../components/Characteristic/Characteristic"
+import Introduce from "../components/Introduce/Introduce"
+import Contact from "../components/Contact/Contact"
 
 
 const Home = () => {
     return (
-      <div>
+      <div className="background">
         <Slider />
-        <Food />
-        <Contact />
+        <Introduce/>
+        <Characteristic/>
+        <Contact/>
+  
       </div>
     );
   }

@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import axios from "axios";
-import { jwtDecode }from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
+import api from "../api/axios"; 
+import { useNavigate } from "react-router-dom";
 
 const ShoppingContext = createContext();
 
@@ -14,36 +13,77 @@ export const ShoppingContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [cartId, setCartId] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isCartLoaded, setIsCartLoaded] = useState(false);
 
-  useEffect(() => {
-    const loadCart = async () => {
-      setLoading(true);
-      const token = localStorage.getItem("token");
+  const loadCart = async () => {
+    if (isCartLoaded) return;
 
-      if (!token) {
-        navigate("/login");
-        return;
-      }
+    setLoading(true);
+    const token = localStorage.getItem("jwtToken");
 
-      try {
-        const decodedToken = jwtDecode(token); 
-        const userId = decodedToken.userId || decodedToken.sub;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
 
-        if (!userId) {
-          console.error("User ID not found in token");
+    try {
+      const introspectResponse = await api.post(
+        "/auth/introspect",
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (introspectResponse.data.result.valid) {
+        const userName = introspectResponse.data.result.userName;
+
+        if (!userName) {
+          console.error("Username not found in token");
+          setLoading(false);
           return;
         }
 
-        const response = await axios.post("/carts/create", { userId });
-        setCartId(response.data.result.id);
-        setCartItems(response.data.result.items);
-      } catch (error) {
-        console.error("Error loading cart:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+        const cartResponse = await api.get(
+          `/carts/current?userName=${userName}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
 
+        if (cartResponse.data.result) {
+          const cartData = cartResponse.data.result;
+
+          setCartId(cartData.id);
+          setCartItems(cartData.items || []);
+          setIsCartLoaded(true);
+          console.log("Giỏ hàng đã được tải thành công.");
+        } else {
+          const createResponse = await api.post(
+            "/carts/create",
+            { userName },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          const newCartData = createResponse.data.result;
+          setCartId(newCartData.id);
+          setCartItems(newCartData.items || []);
+          setIsCartLoaded(true);
+          console.log("Tạo giỏ hàng thành công.");
+        }
+      } else {
+        console.error("Token không hợp lệ.");
+      }
+    } catch (error) {
+      console.error("Lỗi khi tải giỏ hàng:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     loadCart();
   }, [navigate]);
 
@@ -52,57 +92,55 @@ export const ShoppingContextProvider = ({ children }) => {
   }, [cartItems]);
 
   const addCartItem = async (product, quantity = 1) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-      return;
-    }
+    try {
+      const response = await api.post("/carts/add", {
+        cartId,
+        productId: product.productId, 
+        quantity,
+      });
 
-    const currentCartItem = cartItems.find((item) => item.id === product.id);
-    if (currentCartItem) {
-      updateQty(product.id, quantity);
-    } else {
-      try {
-        const response = await axios.post("/carts/add", {
-          cartId,
-          productId: product.id,
-          quantity,
-        });
-        setCartItems(response.data.result.items);
-      } catch (error) {
-        console.error("Error adding product to cart:", error);
+      if (response.data.result) {
+        setCartItems(response.data.result.items || []);
+        console.log("Thêm thành công vào giỏ hàng");
       }
+    } catch (error) {
+      console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", error);
     }
   };
 
   const removeCartItem = async (id) => {
     try {
-      await axios.post("/carts/remove", { cartId, productId: id });
-      setCartItems(cartItems.filter((item) => item.id !== id));
+      const response = await api.post("/carts/remove", { cartId, productId: id });
+
+      if (response.data.result) {
+        setCartItems(response.data.result.items || []);
+        console.log("Sản phẩm đã được xóa khỏi giỏ hàng");
+      } else {
+        console.error("Lỗi khi xóa sản phẩm khỏi giỏ hàng:", response.data.message);
+      }
     } catch (error) {
-      console.error("Error removing product from cart:", error);
+      console.error("Lỗi khi xóa sản phẩm khỏi giỏ hàng:", error);
     }
   };
 
-  const increaseQty = (id) => {
-    updateQty(id, 1);
-  };
-
-  const decreaseQty = (id) => {
-    const currentCartItem = cartItems.find((item) => item.id === id);
-    if (currentCartItem && currentCartItem.qty === 1) {
-      removeCartItem(id);
-    } else {
-      updateQty(id, -1);
+  const increaseQty = async (id) => {
+    const product = cartItems.find(item => item.productId === id);
+    
+    if (product) {
+      await addCartItem(product, 1); 
     }
   };
 
-  const updateQty = (id, delta) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id ? { ...item, qty: item.qty + delta } : item
-      )
-    );
+  const decreaseQty = async (id) => {
+    const product = cartItems.find(item => item.productId === id);
+    
+    if (product) {
+      if (product.quantity === 1) { 
+        await removeCartItem(id);
+      } else {
+        await addCartItem(product, -1);
+      }
+    }
   };
 
   return (
@@ -114,6 +152,12 @@ export const ShoppingContextProvider = ({ children }) => {
         increaseQty,
         decreaseQty,
         loading,
+        clearCart: () => setCartItems([]),
+        totalPrice: cartItems.reduce(
+          (total, item) => total + item.unitPrice * item.quantity, 
+          0
+        ),
+        cartQty: cartItems.reduce((total, item) => total + item.quantity, 0), 
       }}
     >
       {children}

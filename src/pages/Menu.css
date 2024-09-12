@@ -322,6 +322,7 @@ svg {
 .center-container {
   display: flex;
   justify-content: center;
+  padding-top: 100px;
 }
 .sort-info {
   font-weight: bold;

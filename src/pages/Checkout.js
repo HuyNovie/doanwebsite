@@ -3,59 +3,57 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useShoppingContext } from '../contexts/ShoppingContext';
 import { formatCurrency } from '../helpers/common';
 import { FaRegTrashAlt } from "react-icons/fa";
-import { jwtDecode } from 'jwt-decode';
+import api from '../api/axios'; 
 
 const Checkout = () => {
     const navigate = useNavigate();
     const { cartItems, totalPrice, increaseQty, decreaseQty, removeCartItem, clearCart } = useShoppingContext();
 
     const handlePayment = async () => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('jwtToken');
         
         if (!token) {
             navigate('/login');
             return;
         }
-
+        
         try {
-            const decodedToken = jwtDecode(token);
-
-            console.log(decodedToken);
-
-            const userId = decodedToken.userId || decodedToken.sub;
-
-            if (!userId) {
-                console.error('User ID not found in token');
-                return;
-            }
-
-            const orderData = {
-                userId: userId,
-                totalAmount: totalPrice,
-                items: cartItems.map(item => ({
-                    productId: item.id,
-                    productName: item.name,
-                    quantity: item.qty,
-                    unitPrice: item.price,
-                })),
-            };
-
-            const response = await fetch('http://localhost:8080/restaurant/orders/create', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(orderData),
+            const introspectResponse = await api.post('/auth/introspect', {}, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                clearCart();
-                navigate('/payment-confirmation');
+    
+            if (introspectResponse.data.result.valid) {
+                const userName = introspectResponse.data.result.userName;
+    
+                if (!userName) {
+                    console.error('Username not found in token');
+                    return;
+                }
+    
+                const orderData = {
+                    userName: userName,
+                    totalAmount: totalPrice || 0,
+                    items: cartItems.map(item => ({
+                        productId: item.id || '',
+                        productName: item.productName || 'Tên món không có',
+                        quantity: item.quantity || 0,
+                        unitPrice: item.unitPrice || 0,
+                        totalPrice: (item.unitPrice || 0) * (item.quantity || 0)
+                    })),
+                };
+    
+                const response = await api.post('/orders/create', orderData, {
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
+                });
+    
+                if (response.status === 200) {
+                    clearCart();
+                    navigate('/payment-confirmation');
+                } else {
+                    console.error('Error creating order:', response.data.message);
+                }
             } else {
-                console.error('Error creating order:', data.message);
+                console.error('Token không hợp lệ.');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -77,26 +75,24 @@ const Checkout = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {cartItems.map(item => {
-                        return (
-                            <tr key={item.id} style={{ verticalAlign: "middle", textAlign: "center" }}>
-                                <td><img src={`http://localhost:8080/restaurant/images/${item.thumbnail}`} className='img-fluid rounded' alt={item.name} /></td>
-                                <td style={{ width: "200px", wordWrap: "break-word" }}>{item.name}</td>
-                                <td>{formatCurrency(item.price)}</td>
-                                <td style={{ width: "200px", wordWrap: "break-word" }}>
-                                    <button type="button" className="btn btn-sm btn-secondary" onClick={() => decreaseQty(item.id)}><strong>-</strong></button>
-                                    <span className="px-3">{item.qty}</span>
-                                    <button type="button" className="btn btn-sm btn-secondary" onClick={() => increaseQty(item.id)}><strong>+</strong></button>
-                                </td>
-                                <td style={{ width: "200px" }}>{formatCurrency(item.price * item.qty)}</td>
-                                <td>
-                                    <button className="btn btn-sm btn-danger btn-remove" onClick={() => removeCartItem(item.id)}>
-                                        <FaRegTrashAlt />
-                                    </button>
-                                </td>
-                            </tr>
-                        );
-                    })}
+                    {cartItems.map(item => (
+                        <tr key={item.productId} style={{ verticalAlign: "middle", textAlign: "center" }}>
+                            <td><img src={`http://localhost:8080/restaurant/images/${item.imageUrl}`} className='img-fluid rounded' alt={item.productName} /></td>
+                            <td style={{ width: "200px", wordWrap: "break-word" }}>{item.productName}</td>
+                            <td>{formatCurrency(item.unitPrice)}</td>
+                            <td style={{ width: "200px", wordWrap: "break-word" }}>
+                                <button type="button" className="btn btn-sm btn-secondary" onClick={() => decreaseQty(item.productId)}><strong>-</strong></button>
+                                <span className="px-3">{item.quantity}</span>
+                                <button type="button" className="btn btn-sm btn-secondary" onClick={() => increaseQty(item.productId)}><strong>+</strong></button>
+                            </td>
+                            <td style={{ width: "200px" }}>{formatCurrency(item.unitPrice * item.quantity)}</td>
+                            <td>
+                                <button className="btn btn-sm btn-danger btn-remove" onClick={() => removeCartItem(item.productId)}>
+                                    <FaRegTrashAlt />
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
             <div className='col-md-12'>
@@ -111,3 +107,4 @@ const Checkout = () => {
 }
 
 export default Checkout;
+

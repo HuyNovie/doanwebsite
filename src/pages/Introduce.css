@@ -1,0 +1,37 @@
+
+.content-introduce {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+.text-content-introduce {
+    position: relative;
+    font-size: 7rem !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgb(77, 141, 64);
+    padding-bottom: 20px;
+   
+  }
+
+.text-items-introduce{
+    color: transparent;
+    color: rgb(77, 141, 64);
+    position: relative;
+    text-shadow:
+    2px 2px 0 #000,
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000;
+
+  }
+
+.tst-text-introduce {
+    color: rgb(69, 91, 90);
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-align: center;
+}

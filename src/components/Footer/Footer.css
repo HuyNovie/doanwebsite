@@ -4,6 +4,10 @@
   --textBold: bold;
 }
 
+.footer-container{
+  padding: 0 5% !important;
+}
+
 li {
   text-decoration: none;
   list-style-type: none;

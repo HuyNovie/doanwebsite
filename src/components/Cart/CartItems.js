@@ -1,35 +1,72 @@
-import React from 'react'
-import "./CartItems.css"
-import { FaRegTrashAlt } from "react-icons/fa"
-import { useShoppingContext } from '../../contexts/ShoppingContext'
-import { formatCurrency } from '../../helpers/common'
+import React, { useMemo } from "react";
+import "./CartItems.css";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { useShoppingContext } from "../../contexts/ShoppingContext";
+import { formatCurrency } from "../../helpers/common";
 
-const CartItems = ({ id, name, price, qty, thumbnail }) => {
+const CartItems = () => {
+  const { increaseQty, decreaseQty, removeCartItem, cartItems } = useShoppingContext();
 
-  const { increaseQty, decreaseQty, removeCartItem } = useShoppingContext();
+  const items = useMemo(() => {
+    console.log("CartItems: ", cartItems);
+    return cartItems;
+  }, [cartItems]);
 
   return (
-    <tr>
-      <td className="center-td" style={{ width: "80px" }}>
-        <img src={`http://localhost:8080/restaurant/images/${thumbnail}`} className="img-fluid rounded" alt={name} />
-      </td>
-      <td className="center-td" style={{ width: "150px" }}>
-        <span>{name}</span>
-      </td>
-      <td className="center-td">
-        <span className="item-quantity">{formatCurrency(price)} x {qty}</span>
-      </td>
-      <td className="center-td" style={{ width: "90px" }}>
-        <button type="button" className="btn btn-sm btn-secondary ms-1" onClick={() => decreaseQty(id)}><strong>-</strong></button>
-        <button type="button" className="btn btn-sm btn-secondary ms-1" onClick={() => increaseQty(id)}><strong>+</strong></button>
-      </td>
-      <td className="center-td">
-        <span className="item-price text-danger px-2">{formatCurrency(qty * price)}</span>
-      </td>
-      <td className="center-td">
-        <button className="btn btn-sm btn-danger btn-remove" onClick={() => removeCartItem(id)}><FaRegTrashAlt /></button>
-      </td>
-    </tr>
+    <tbody>
+      {items.length > 0 ? (
+        items.map(item => (
+          <tr key={item.productId} style={{ verticalAlign: "middle", textAlign: "center" }}>
+            <td>
+              <img
+                src={`http://localhost:8080/restaurant/images/${item.imageUrl}`} 
+                className='img-fluid rounded'
+                alt={item.productName || 'Tên món không có'}
+                style={{ width: "100px", height: "auto" }}
+                onError={(e) => {
+                  e.target.onerror = null; 
+                  e.target.src = 'path_to_fallback_image';
+                }}
+              />
+            </td>
+            <td style={{ width: "200px", wordWrap: "break-word" }}>
+              {item.productName || 'Tên món không có'}
+            </td>
+            <td>{formatCurrency(item.unitPrice || 0)}</td>
+            <td style={{ width: "200px", wordWrap: "break-word" }}>
+              <button type="button" className="btn btn-sm btn-secondary" onClick={() => {
+                console.log(`Decrease quantity for ${item.productId}`);
+                decreaseQty(item.productId);
+              }}>
+                <strong>-</strong>
+              </button>
+              <span className="px-3">{item.quantity || 0}</span>
+              <button type="button" className="btn btn-sm btn-secondary" onClick={() => {
+                console.log(`Increase quantity for ${item.productId}`);
+                increaseQty(item.productId);
+              }}>
+                <strong>+</strong>
+              </button>
+            </td>
+            <td style={{ width: "200px" }}>
+              {formatCurrency((item.unitPrice || 0) * (item.quantity || 0))}
+            </td>
+            <td>
+              <button className="btn btn-sm btn-danger btn-remove" onClick={() => {
+                console.log(`Remove item ${item.productId}`);
+                removeCartItem(item.productId);
+              }}>
+                <FaRegTrashAlt />
+              </button>
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan="6" style={{ textAlign: "center" }}>Giỏ hàng trống</td>
+        </tr>
+      )}
+    </tbody>
   );
 };
 
