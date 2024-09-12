@@ -14,6 +14,7 @@ import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import ProductDetails from "./pages/Productdetails";
 import Loading from './components/Loading/Loading';
+import Payment from "./pages/Payment";
 // <<<<<<< HEAD
 import Contact from "./pages/Contact";
 import Introduce from "./pages/Introduce";
@@ -85,6 +86,7 @@ const App = () => {
           <Route path="/introduce" element={<Introduce/>} />
           <Route path="/contact" element={<Contact/>} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/payment" element={<Payment/>} />
           <Route path="/admin" element={<AdminProfile />} />
         </Routes>
       </div>

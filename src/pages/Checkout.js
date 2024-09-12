@@ -55,8 +55,8 @@ const Checkout = () => {
     <div className='col-md-12 mt-5'>
         <Link to='/menu' className='btn btn-sm btn-primary float-start'>Tiếp tục mua </Link>
         <button className='btn btn-sm btn-success float-end me-2 d-block' onClick={() => {
-            clearCart()
-            navigate('/menu')
+            // clearCart()
+            navigate('/payment')
         }}>Thanh toán</button>
     </div>
 </div>

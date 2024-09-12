@@ -23,9 +23,9 @@ import {
   faMagnifyingGlass,
   faMicrophone,
 } from "@fortawesome/free-solid-svg-icons";
-import bannerOpenTime from "../assets/Banner/openTime.jpg";
-import bannerBooking from "../assets/Banner/booking.jpg";
-import bannerShip from "../assets/Banner/ship.jpg";
+import bannerOpenTime from "../assets/Banner/openTime.png";
+import bannerBooking from "../assets/Banner/booking.png";
+import bannerShip from "../assets/Banner/ship.png";
 import pic1 from "../assets/Banner/kimchi2.jpeg";
 import pic2 from "../assets/Banner/samgyeopsal2.jpeg";
 import pic3 from "../assets/Banner/soondae2.jpeg";
