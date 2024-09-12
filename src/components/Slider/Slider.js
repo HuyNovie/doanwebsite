@@ -5,7 +5,9 @@ import Leaf from "../../assets/food/leaf.png";
 import { IoCartOutline } from "react-icons/io5";
 import "./Slider.css";
 import Carousel from "react-bootstrap/Carousel";
-import banner1 from "../../assets/Banner/booking.png"
+import banner1 from "../../assets/Banner/openTime.png"
+import banner2 from "../../assets/Banner/booking.png"
+import banner3 from "../../assets/Banner/ship.png"
 
 const Slider = () => {
   const [index, setIndex] = useState(0);
@@ -46,14 +48,12 @@ const Slider = () => {
           <img src={banner1 } alt="Food Plate" style={{ width: '100%', height: '440px', objectFit: 'cover' }} />
         </Carousel.Item>
         <Carousel.Item>
-          <img src={banner1} alt="Food Plate" style={{ width: '100%', height: '440px', objectFit: 'cover' }} />
+          <img src={banner2} alt="Food Plate" style={{ width: '100%', height: '440px', objectFit: 'cover' }} />
         </Carousel.Item>
         <Carousel.Item>
-          <img src={banner1} alt="Food Plate" style={{ width: '100%', height: '440px', objectFit: 'cover' }} />
+          <img src={banner3} alt="Food Plate" style={{ width: '100%', height: '440px', objectFit: 'cover' }} />
         </Carousel.Item>
       </Carousel>
-
-
       </div>
     </div>
     </div>

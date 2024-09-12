@@ -1,43 +1,42 @@
-table.boardContact{
-    margin: 0% auto;
-    width: 650px;
+table.boardContact {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 650px;
     margin-top: 30px;
     background-color: #FFE4C4;
-    margin-left: 100px;
     border-radius: 10px;
 }
 
-table.mapContact{
-    margin: 0% auto;
+table.mapContact {
+    margin: 0 auto;
     margin-top: 30px;
 }
 
-iframe.map1{
+iframe.map1, iframe.map2 {
+    width: 100%;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
-iframe.map2{
+iframe.map2 {
     margin-top: 40px;
-    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
-.titleContact{
+.titleContact {
     font-weight: bolder;
     font-size: 30px;
-    margin-left: 90px;
+    margin-left: 5%;
     margin-top: 20px;
 }
 
-.contactname, .contactemail, .contactphone, .contactnote{
+.contactname, .contactemail, .contactphone, .contactnote {
     font-size: 20px;
     font-weight: 600;
-    margin-left: 90px;
-
+    margin-left: 5%;
 }
 
 input.contactname, input.contactemail, input.contactphone {
-    margin-left: 90px;
-    width: 350px;
+    margin-left: 5%;
+    width: 90%;
     margin-bottom: 10px;
     margin-top: 10px;
     border-radius: 10px;
@@ -48,19 +47,21 @@ input.contactname, input.contactemail, input.contactphone {
     outline: 0px;
 }
 
-textarea.contactnote{
+textarea.contactnote {
     margin-top: 10px;
     margin-bottom: 10px;
     font-weight: 500;
     border-radius: 15px;
+    width: 90%;
+    margin-left: 5%;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
     border: 0px;
 }
 
-.buttonContact2{
-    margin-left: 90px;
+.buttonContact2 {
+    margin-left: 5%;
     font-size: 20px;
-    width: 180px;
+    width: 90%;
     height: 40px;
     border-radius: 20px;
     font-weight: bolder;
@@ -72,9 +73,15 @@ textarea.contactnote{
     border: 0px;
 }
 
-.buttonContact2:hover{
+.buttonContact2:hover {
     transition: 0.3s;
-    background:#FAFAD2;
+    background: #FAFAD2;
     color: red;
+}
 
+@media (max-width: 768px) {
+    .boardContact, .mapContact {
+        margin-left: 0;
+        width: 100%;
+    }
 }

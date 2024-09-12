@@ -13,7 +13,8 @@ import Booking from "./pages/Booking";
 import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import ProductDetails from "./pages/Productdetails";
-import Loading from "./components/Loading/Loading";
+import Loading from './components/Loading/Loading';
+import Payment from "./pages/Payment";
 import Contact from "./pages/Contact";
 import Introduce from "./pages/Introduce";
 import AdminProfile from "./components/AdminProfile";
@@ -92,6 +93,7 @@ const App = () => {
           <Route path="/introduce" element={<Introduce />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/payment" element={<Payment/>} />
           <Route path="/admin" element={<AdminProfile />} />
           <Route path="/admin/product-management" element={<ProductManagement />} />
           <Route path="/admin/view-products" element={<ProductManagement />} />
