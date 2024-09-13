@@ -21,12 +21,10 @@ const Payment = () => {
       }
     };
 
-    // Load order data from localStorage
     const storedOrderData = localStorage.getItem('orderData');
     if (storedOrderData) {
       setOrderData(JSON.parse(storedOrderData));
     } else {
-      // Initialize orderData if not present in localStorage
       setOrderData({
         userName: `${userInfo?.firstName || ''} ${userInfo?.lastName || ''}`,
         totalAmount: totalPrice || 0,
@@ -62,10 +60,9 @@ const Payment = () => {
 
       const response = await api.post('/orders/create', orderRequest);
       if (response.data.code === 1000) {
-        // Redirect to home or show success message
         localStorage.removeItem('orderData');
         window.alert('Đặt hàng thành công!');
-        window.location.href = '/'; // Redirect to homepage
+        window.location.href = '/'; 
       } else {
         setError('Có lỗi xảy ra khi tạo đơn hàng.');
       }

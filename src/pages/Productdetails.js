@@ -11,31 +11,64 @@ const ProductDetails = () => {
   const { addCartItem } = useShoppingContext();
   const { id, productType } = useParams();
   const [product, setProduct] = useState(null);
+  const [type, setType] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProductDetails = async () => {
+  const fetchProductDetails = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/restaurant/menu/${productType}/${id}`
+      );
+      const data = await response.json();
+      if (data.result) {
+        setProduct(data.result);
+        setType(data.result.productType);
+      } else {
+        console.error("Product not found with ID:", id);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+      setLoading(false);
+    }
+  };
+
+  const fetchRelatedProducts = async () => {
+    if (type) {
       try {
         const response = await fetch(
-          `http://localhost:8080/restaurant/menu/${productType}/${id}`
+          `http://localhost:8080/restaurant/menu/filter?productType=${productType}&&type=${type}`
         );
         const data = await response.json();
         if (data.result) {
-          setProduct(data.result);
+          const filteredProducts = data.result.filter(
+            (relatedProduct) => relatedProduct.id !== product.id
+          );
+          setRelatedProducts(filteredProducts);
         } else {
-          console.error("Product not found with ID:", id);
+          console.error(
+            "No related products found for productType:",
+            productType
+          );
         }
-        setLoading(false);
       } catch (error) {
-        console.error("Error fetching product details:", error);
-        setLoading(false);
+        console.error("Error fetching related products:", error);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchProductDetails();
   }, [id, productType]);
+
+  useEffect(() => {
+    if (product) {
+      fetchRelatedProducts();
+    }
+  }, [product]);
 
   const handleQuantityChange = (amount) => {
     setQuantity((prevQuantity) => Math.max(1, prevQuantity + amount));
@@ -43,24 +76,24 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     const token = localStorage.getItem("jwtToken");
-  
+
     if (!token) {
       navigate("/login");
       return;
     }
-  
+
     try {
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.userId || decodedToken.sub;
-  
+
       if (!userId) {
         console.error("User ID not found in token");
         navigate("/login");
         return;
       }
-  
+
       addCartItem(
-        { ...product, thumbnail: product.imageUrl, productId: product.id }, 
+        { ...product, thumbnail: product.imageUrl, productId: product.id },
         quantity
       );
     } catch (error) {
@@ -68,7 +101,14 @@ const ProductDetails = () => {
       navigate("/login");
     }
   };
-  
+
+  const handleImageClick = (item) => {
+    if (item && item.id) {
+      navigate(`/menu/${productType}/${item.id}`);
+    } else {
+      console.error("Không tìm thấy sản phẩm hoặc sản phẩm không có ID", item);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -97,25 +137,21 @@ const ProductDetails = () => {
   return (
     <div className="container" style={{ padding: "5% 8%" }}>
       <div className="row">
-        <div className="col-md-5 d-flex justify-content-center align-items-center">
-          {images.length > 0 ? (
-            <ImageGallery
-              items={images}
-              showFullscreenButton={true}
-              showPlayButton={false}
-              showBullets={true}
-              showNav={true}
-              slideDuration={300}
-              slideInterval={5000}
-              thumbnailPosition="bottom"
-              lazyLoad={true}
-              slideOnThumbnailHover={true}
-              useBrowserFullscreen={false}
-              additionalClass="custom-image-gallery"
-            />
-          ) : (
-            <div>No images available</div>
-          )}
+        <div className="col-md-5 d-flex justify-content-center align-items-center product-image">
+          <ImageGallery
+            items={images}
+            showFullscreenButton={true}
+            showPlayButton={false}
+            showBullets={true}
+            showNav={true}
+            slideDuration={300}
+            slideInterval={5000}
+            thumbnailPosition="bottom"
+            lazyLoad={true}
+            slideOnThumbnailHover={true}
+            useBrowserFullscreen={false}
+            additionalClass="custom-image-gallery"
+          />
         </div>
         <div className="col-md-7">
           <h2 className="text-color">
@@ -133,6 +169,9 @@ const ProductDetails = () => {
           </div>
           <div>
             <strong>Thành phần:</strong> {product.ingredients}
+          </div>
+          <div>
+            <strong>Đánh giá:</strong> {product.rating} /5
           </div>
           <div className="quantity-controls my-3">
             <button
@@ -154,7 +193,33 @@ const ProductDetails = () => {
           </button>
         </div>
       </div>
-      <div>Sản phẩm liên quan</div>
+
+      {relatedProducts.length > 0 ? (
+        <div className="related-products mt-5">
+          <h3>Sản phẩm liên quan</h3>
+          <div className="row">
+            {relatedProducts.map((relatedProduct) => (
+              <div
+                key={relatedProduct.id}
+                className="col-md-3 related-product-container"
+                onClick={() => handleImageClick(relatedProduct)}
+              >
+                <img
+                  src={`http://localhost:8080/restaurant/images/${relatedProduct.imageUrl}`}
+                  alt={relatedProduct.name}
+                  className="img-fluid"
+                />
+                <div className="related-product-overlay">
+                  <p>{relatedProduct.name}</p>
+                  <p>{formatCurrency(relatedProduct.price)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div>Không có sản phẩm liên quan</div>
+      )}
     </div>
   );
 };
