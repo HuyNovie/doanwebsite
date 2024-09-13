@@ -107,10 +107,7 @@ const Footer = () => {
           <Col xs={12} md={8} className="footer-slogan ">
             <div>
               <p className="text-slogan mt-5 text-start d-none d-md-block">
-                Với mong muốn luôn luôn lắng nghe và phát triển, chúng tôi rất
-                vui và lấy làm vinh dự khi được bạn góp ý – đánh giá về dịch vụ
-                của mình. Chúng tôi sẽ tiếp thu và phát triển dịch vụ hoàn thiện
-                hơn từng ngày.
+              Chúng tôi rất trân trọng sự quan tâm và góp ý của bạn đối với dịch vụ của chúng tôi. Đánh giá của bạn là nguồn động viên quan trọng giúp chúng tôi không ngừng cải thiện và hoàn thiện dịch vụ từng ngày. Xin cảm ơn bạn đã dành thời gian để chia sẻ ý kiến của mình!
               </p>
             </div>
           </Col>

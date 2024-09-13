@@ -79,9 +79,9 @@ const Checkout = () => {
   return (
     <div
       className="row"
-      style={{ padding: "2% 8%", marginRight: 0, marginTop: "130px" }}
+      style={{ padding: "2% 8%"}}
     >
-      <h3>Giỏ hàng</h3>
+      <h1 className="text-warning">Giỏ hàng</h1>
       <table className="table table-hover">
         <thead>
           <tr style={{ textAlign: "center" }}>

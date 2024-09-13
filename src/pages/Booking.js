@@ -11,7 +11,7 @@ const Booking = () => {
     };
 
     return ( 
-        <main className="container" style={{paddingTop:"150px"}}>
+        <main className="container" style={{paddingTop:"20px"}} >
             <div className="booking-form">
                 <div className="row">
                     <div className="col-12 text-center TitleBook">ĐẶT BÀN</div>

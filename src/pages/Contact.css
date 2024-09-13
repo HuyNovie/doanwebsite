@@ -1,60 +1,30 @@
-table.boardContact {
-    margin: 0 auto;
-    width: 100%;
-    max-width: 650px;
-    margin-top: 30px;
-    background-color: #FFE4C4;
-    border-radius: 10px;
-}
-
-table.mapContact {
-    margin: 0 auto;
-    margin-top: 30px;
-}
-
-iframe.map1, iframe.map2 {
-    width: 100%;
-    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-}
-
-iframe.map2 {
-    margin-top: 40px;
-}
-
 .titleContact {
-    font-weight: bolder;
-    font-size: 30px;
-    margin-left: 5%;
-    margin-top: 20px;
+    color: orange;
+    text-align: center;
 }
-
-.contactname, .contactemail, .contactphone, .contactnote {
-    font-size: 20px;
-    font-weight: 600;
-    margin-left: 5%;
+.boardContact {
+    padding: 0 10px;
 }
-
 input.contactname, input.contactemail, input.contactphone {
-    margin-left: 5%;
-    width: 90%;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    border-radius: 10px;
+    width: 100%;
+    margin: 10px;
+    border-radius: 8px;
     height: 40px;
     font-weight: 500;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px;
     border: 0px;
     outline: 0px;
 }
+
 
 textarea.contactnote {
     margin-top: 10px;
     margin-bottom: 10px;
     font-weight: 500;
     border-radius: 15px;
-    width: 90%;
-    margin-left: 5%;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    width: 100%;
+    margin-left: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px;
     border: 0px;
 }
 
@@ -67,16 +37,54 @@ textarea.contactnote {
     font-weight: bolder;
     margin-bottom: 15px;
     margin-top: 10px;
-    color: white;
-    background-color: black;
+    color: orange;
+    background-color: white;
     outline: 0px;
     border: 0px;
 }
 
 .buttonContact2:hover {
-    transition: 0.3s;
-    background: #FAFAD2;
-    color: red;
+    transition: 0.4s;
+    background: orange;
+    color: black;
+}
+
+img.bannerContact{
+    width: 100%;
+    height: 50%;
+    padding-top: 13px;
+}
+
+iframe.map1{
+    width: 100%;
+    height: 400px;
+    padding-top: 30px;
+}
+@media (max-width: 1190px){
+    img.bannerContact{
+        width: 100%;
+        height: 50%;
+    }
+
+    iframe.map1{
+        width: 100%;
+    }
+
+    .titleContact {
+       padding-top: 50px;
+    }
+
+}
+
+@media (max-width: 800px){
+    img.bannerContact{
+        width: 100%;
+        height: 50%;
+    }
+
+    iframe.map1{
+        height: 300px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -84,4 +92,18 @@ textarea.contactnote {
         margin-left: 0;
         width: 100%;
     }
+
+    img.bannerContact{
+        width: 100%;
+        height: 50%;
+    }
+
+    iframe.map1{
+        width: 100%;
+    }
+    div.backgroundContact{
+        width: 100%;
+    }
+    
+
 }

@@ -12,6 +12,8 @@ const OrderManagement = () => {
       try {
         const response = await api.get('/orders/all');
         setOrders(response.data.result);
+        console.log("load orders thành công");
+        console.log(response.data.result)
       } catch (error) {
         setError('Lỗi khi lấy đơn hàng.');
       } finally {

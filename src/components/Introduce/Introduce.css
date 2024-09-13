@@ -7,6 +7,14 @@
     left: 50%;
     transform: translateX(-50%);
 }
+
+.box-imgbakground {
+    width: 100%;
+    max-width: 540px; 
+    height: 600px; 
+    border-radius: 8px;
+    text-align: center;
+}
  
 .suptitle {
     position: relative;

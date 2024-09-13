@@ -85,7 +85,7 @@ const Login = () => {
   };
 
   return (
-    <div className="wrapper" style={{marginTop: "150px"}}>
+    <div className="wrapper">
       <form onSubmit={handleSubmit}>
         <h1 className="text-center">Đăng nhập</h1>
         <div className="form-group">
@@ -128,13 +128,13 @@ const Login = () => {
         </div>
 
         <div className="register-link">
-          <p>
+          <div>
             Bạn chưa có tài khoản?
             <Link to="/register" className="text-register">
               {" "}
               Đăng kí{" "}
             </Link>
-          </p>
+          </div>
         </div>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       </form>

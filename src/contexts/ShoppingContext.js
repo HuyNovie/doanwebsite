@@ -83,6 +83,11 @@ export const ShoppingContextProvider = ({ children }) => {
     }
   };
 
+  const refreshCart = async () => {
+    setIsCartLoaded(false);
+    await loadCart();
+  };
+
   useEffect(() => {
     loadCart();
   }, [navigate]);
@@ -95,7 +100,7 @@ export const ShoppingContextProvider = ({ children }) => {
     try {
       const response = await api.post("/carts/add", {
         cartId,
-        productId: product.productId, 
+        productId: product.id,
         quantity,
       });
 
@@ -124,7 +129,7 @@ export const ShoppingContextProvider = ({ children }) => {
   };
 
   const increaseQty = async (id) => {
-    const product = cartItems.find(item => item.productId === id);
+    const product = cartItems.find(item => item.id === id); 
     
     if (product) {
       await addCartItem(product, 1); 
@@ -132,7 +137,7 @@ export const ShoppingContextProvider = ({ children }) => {
   };
 
   const decreaseQty = async (id) => {
-    const product = cartItems.find(item => item.productId === id);
+    const product = cartItems.find(item => item.id === id); 
     
     if (product) {
       if (product.quantity === 1) { 
@@ -153,11 +158,13 @@ export const ShoppingContextProvider = ({ children }) => {
         decreaseQty,
         loading,
         clearCart: () => setCartItems([]),
+        refreshCart,
         totalPrice: cartItems.reduce(
           (total, item) => total + item.unitPrice * item.quantity, 
           0
         ),
         cartQty: cartItems.reduce((total, item) => total + item.quantity, 0), 
+        cartId, // Expose cartId
       }}
     >
       {children}

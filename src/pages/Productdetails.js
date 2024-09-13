@@ -193,7 +193,6 @@ const ProductDetails = () => {
           </button>
         </div>
       </div>
-
       {relatedProducts.length > 0 ? (
         <div className="related-products mt-5">
           <h3>Sản phẩm liên quan</h3>

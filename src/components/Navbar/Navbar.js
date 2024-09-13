@@ -94,7 +94,7 @@ const Navbar = ({ user }) => {
 
   return (
     <div id="navbar" className={`navbar ${smallNavbar ? "small" : ""}`}>
-      <motion.img
+      <motion.img 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.9, delay: 0.5 }}
@@ -116,6 +116,7 @@ const Navbar = ({ user }) => {
               animate="animate"
               key={menu.id}
               className="nav-items"
+              onClick={() => window.scrollTo(0, 0)}
               data-delay={menu.delay}
             >
               <NavLink
@@ -203,14 +204,14 @@ const Navbar = ({ user }) => {
             </ul>
           </Dropdown.Menu>
         </Dropdown>
-        <div>
+        <div style={{padding: "5px"}}>
           {isLoggedIn ? (
             <>
-              <Link to="/profile">{userIcon} {userName}</Link>
+              <Link to="/profile" style={{color:"black"}}>{userIcon} {userName}</Link>
               <button onClick={handleLogout}>Đăng xuất</button>
             </>
           ) : (
-            <Link to="/login">
+            <Link to="/login" style={{color:"black"}} >
               <FaSignInAlt />
             </Link>
           )}

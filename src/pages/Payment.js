@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import api from '../api/axios';
 import { useShoppingContext } from '../contexts/ShoppingContext';
 import { formatCurrency } from '../helpers/common';
+import { useNavigate } from 'react-router-dom';
 
 const Payment = () => {
-  const [paymentMethod, setPaymentMethod] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState('COD'); //mặc định là 'COD'
   const [promoCode, setPromoCode] = useState('');
   const [userInfo, setUserInfo] = useState(null);
-  const [orderData, setOrderData] = useState(null);
   const [error, setError] = useState('');
-  const { cartItems, totalPrice } = useShoppingContext();
+  const { cartItems, totalPrice, cartId , refreshCart } = useShoppingContext();
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -21,25 +22,8 @@ const Payment = () => {
       }
     };
 
-    const storedOrderData = localStorage.getItem('orderData');
-    if (storedOrderData) {
-      setOrderData(JSON.parse(storedOrderData));
-    } else {
-      setOrderData({
-        userName: `${userInfo?.firstName || ''} ${userInfo?.lastName || ''}`,
-        totalAmount: totalPrice || 0,
-        items: cartItems.map(item => ({
-          productId: item.id || "",
-          productName: item.productName || "Tên món không có",
-          quantity: item.quantity || 0,
-          unitPrice: item.unitPrice || 0,
-          totalPrice: (item.unitPrice || 0) * (item.quantity || 0),
-        })),
-      });
-    }
-
     fetchUserInfo();
-  }, [cartItems, totalPrice, userInfo]);
+  }, []);
 
   const handlePaymentMethodChange = (e) => {
     setPaymentMethod(e.target.value);
@@ -53,16 +37,27 @@ const Payment = () => {
     e.preventDefault();
     try {
       const orderRequest = {
-        ...orderData,
+        userId: userInfo?.id,
+        cartId: cartId, 
         paymentMethod: paymentMethod,
         promoCode: promoCode,
+        items: cartItems.map(item => ({
+          productId: item.productId,
+          productName: item.productName,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+          totalPrice: item.unitPrice * item.quantity,
+        })),
+        totalAmount: totalPrice,
       };
+      console.log(orderRequest);
 
       const response = await api.post('/orders/create', orderRequest);
       if (response.data.code === 1000) {
         localStorage.removeItem('orderData');
         window.alert('Đặt hàng thành công!');
-        window.location.href = '/'; 
+        refreshCart();
+        navigate('/'); 
       } else {
         setError('Có lỗi xảy ra khi tạo đơn hàng.');
       }
@@ -74,7 +69,7 @@ const Payment = () => {
 
   return (
     <main role="main">
-      <div className="container mt-4" style={{ paddingTop: '120px', paddingLeft: '50px', paddingRight: '50px' }}>
+      <div className="container mt-4" style={{ paddingTop: '25px', paddingLeft: '50px', paddingRight: '50px' }}>
         <form className="needs-validation" onSubmit={handleSubmit}>
           <div className="py-5 text-center">
             <i className="fa fa-credit-card fa-4x" aria-hidden="true"></i>
