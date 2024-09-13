@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./Productdetails.css";
 import { useShoppingContext } from "../contexts/ShoppingContext";
 import { formatCurrency } from "../helpers/common";
+import { Row, Col } from "react-bootstrap";
 import ImageGallery from "react-image-gallery";
 import { jwtDecode } from "jwt-decode";
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -196,11 +197,15 @@ const ProductDetails = () => {
       {relatedProducts.length > 0 ? (
         <div className="related-products mt-5">
           <h3>Sản phẩm liên quan</h3>
-          <div className="row">
+          <Row>
             {relatedProducts.map((relatedProduct) => (
-              <div
+              <Col
+                xs={12}
+                sm={6}
+                md={3}
+                lg={3}
                 key={relatedProduct.id}
-                className="col-md-3 related-product-container"
+                className="related-product-container"
                 onClick={() => handleImageClick(relatedProduct)}
               >
                 <img
@@ -212,9 +217,9 @@ const ProductDetails = () => {
                   <p>{relatedProduct.name}</p>
                   <p>{formatCurrency(relatedProduct.price)}</p>
                 </div>
-              </div>
+              </Col>
             ))}
-          </div>
+          </Row>
         </div>
       ) : (
         <div>Không có sản phẩm liên quan</div>
