@@ -203,14 +203,14 @@ const Navbar = ({ user }) => {
             </ul>
           </Dropdown.Menu>
         </Dropdown>
-        <div>
+        <div style={{padding: "5px"}}>
           {isLoggedIn ? (
             <>
-              <Link to="/profile">{userIcon} {userName}</Link>
+              <Link to="/profile" style={{color:"black"}}>{userIcon} {userName}</Link>
               <button onClick={handleLogout}>Đăng xuất</button>
             </>
           ) : (
-            <Link to="/login">
+            <Link to="/login" style={{color:"black"}} >
               <FaSignInAlt />
             </Link>
           )}

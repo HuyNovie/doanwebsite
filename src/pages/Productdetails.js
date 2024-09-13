@@ -154,7 +154,6 @@ const ProductDetails = () => {
           </button>
         </div>
       </div>
-      <div>Sản phẩm liên quan</div>
     </div>
   );
 };

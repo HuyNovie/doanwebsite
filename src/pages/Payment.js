@@ -77,7 +77,7 @@ const Payment = () => {
 
   return (
     <main role="main">
-      <div className="container mt-4" style={{ paddingTop: '120px', paddingLeft: '50px', paddingRight: '50px' }}>
+      <div className="container mt-4" style={{paddingTop: '25px', paddingLeft: '50px', paddingRight: '50px' }}>
         <form className="needs-validation" onSubmit={handleSubmit}>
           <div className="py-5 text-center">
             <i className="fa fa-credit-card fa-4x" aria-hidden="true"></i>

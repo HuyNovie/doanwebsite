@@ -10,7 +10,7 @@ const Contact = () => {
     };
 
     return (  
-        <main className="container" style={{paddingTop: "150px"}}>
+        <main className="container">
             <div className='row'>
                 <div className='col-lg-6 col-md-12'>
                     <div className='boardContact'>
