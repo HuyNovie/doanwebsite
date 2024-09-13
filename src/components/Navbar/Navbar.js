@@ -94,7 +94,7 @@ const Navbar = ({ user }) => {
 
   return (
     <div id="navbar" className={`navbar ${smallNavbar ? "small" : ""}`}>
-      <motion.img
+      <motion.img 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.9, delay: 0.5 }}
@@ -116,6 +116,7 @@ const Navbar = ({ user }) => {
               animate="animate"
               key={menu.id}
               className="nav-items"
+              onClick={() => window.scrollTo(0, 0)}
               data-delay={menu.delay}
             >
               <NavLink
