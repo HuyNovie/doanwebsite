@@ -1,6 +1,5 @@
 import { useState } from "react";
 import React from "react";
-import { Link } from "react-router-dom";
 import Leaf from "../../assets/food/leaf.png";
 import { IoCartOutline } from "react-icons/io5";
 import "./Slider.css";
@@ -8,19 +7,24 @@ import Carousel from "react-bootstrap/Carousel";
 import banner1 from "../../assets/Banner/openTime.png";
 import banner2 from "../../assets/Banner/booking.png";
 import banner3 from "../../assets/Banner/ship.png";
+import { useNavigate } from "react-router-dom";
 
 const Slider = () => {
   const [index, setIndex] = useState(0);
+  const navigate = useNavigate();
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
 
+  const handleToMenu = () => {
+    navigate("/menu");
+  }
+
   return (
     <>
       <div className="container">
         <div className="row pd-slider">
-          {/* Reverse order on mobile and tablet */}
           <div className="col-lg-4 col-md-12 col-sm-12 pd-bottom order-2 order-md-2 order-lg-1">
             <div className="content">
               <h1 className="text-content text-content-items">
@@ -33,9 +37,9 @@ const Slider = () => {
                 nhất.
               </p>
               <button>
-                <Link to="/menu" className="cart-outline">
+                <div className="cart-outline" onClick={handleToMenu}>
                   <IoCartOutline />
-                </Link>
+                </div>
               </button>
             </div>
           </div>

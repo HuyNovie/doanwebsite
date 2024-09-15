@@ -5,8 +5,9 @@ import { formatCurrency } from '../helpers/common';
 import { useNavigate } from 'react-router-dom';
 
 const Payment = () => {
-  const [paymentMethod, setPaymentMethod] = useState('COD'); //mặc định là 'COD'
+  const [paymentMethod, setPaymentMethod] = useState('COD');
   const [promoCode, setPromoCode] = useState('');
+  const [promoMessage, setPromoMessage] = useState('');
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState('');
   const { cartItems, totalPrice, cartId , refreshCart } = useShoppingContext();
@@ -32,9 +33,36 @@ const Payment = () => {
   const handlePromoCodeChange = (e) => {
     setPromoCode(e.target.value);
   };
+  
+  const handleApplyPromoCode = async () => {
+    try {
+      const response = await api.get('/orders/checkDiscount', {
+        params: { promoCode } 
+      });
+  
+      const discount = response.data;
+  
+      if (discount > 0) {
+        setPromoMessage(`Mã giảm giá ${discount}% áp dụng thành công!`);
+      } else {
+        setPromoMessage('Mã giảm giá không tồn tại.');
+      }
+    } catch (error) {
+      console.error('Error checking promo code:', error);
+      setPromoMessage('Có lỗi xảy ra khi áp dụng mã giảm giá.');
+    }
+  };
+  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (cartItems.length === 0) {
+      setError('Giỏ hàng của bạn hiện đang trống. Vui lòng thêm sản phẩm trước khi đặt hàng.');
+      return;
+    }
+    
     try {
       const orderRequest = {
         userId: userInfo?.id,
@@ -78,7 +106,6 @@ const Payment = () => {
           </div>
 
           <div className="row">
-            {/* Cart Information */}
             <div className="col-lg-4 col-md-6 order-md-2 mb-4">
               <h4 className="d-flex justify-content-between align-items-center mb-3">
                 <span className="text-muted">Giỏ hàng</span>
@@ -112,9 +139,12 @@ const Payment = () => {
                   onChange={handlePromoCodeChange}
                 />
                 <div className="input-group-append">
-                  <button type="button" style={{ marginLeft: '10px' }} className="btn bg-warning btn-lg btn-block">Áp dụng</button>
+                  <button type="button" style={{ marginLeft: '10px' }} className="btn bg-warning btn-lg btn-block" onClick={handleApplyPromoCode} >
+                    Áp dụng
+                  </button>
                 </div>
               </div>
+              {promoMessage && <span className="text-success">{promoMessage}</span>}
             </div>
 
             <div className="col-lg-8 col-md-6 order-md-1">

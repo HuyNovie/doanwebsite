@@ -57,7 +57,9 @@ export const ShoppingContextProvider = ({ children }) => {
           setCartId(cartData.id);
           setCartItems(cartData.items || []);
           setIsCartLoaded(true);
+          
           console.log("Giỏ hàng đã được tải thành công.");
+          console.log(cartData);
         } else {
           const createResponse = await api.post(
             "/carts/create",
@@ -84,9 +86,12 @@ export const ShoppingContextProvider = ({ children }) => {
   };
 
   const refreshCart = async () => {
+    setCartItems([]);
     setIsCartLoaded(false);
+    
     await loadCart();
   };
+  
 
   useEffect(() => {
     loadCart();

@@ -4,7 +4,7 @@ import api from '../api/axios';
 
 const EditProfile = () => {
   const [userData, setUserData] = useState({
-    id: '', // Thêm id vào state
+    id: '',
     username: '',
     mail: '',
     phone: '',

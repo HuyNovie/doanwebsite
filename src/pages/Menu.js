@@ -70,6 +70,10 @@ const Menu = () => {
     { id: 4, title: "Xào", values: 0 },
     { id: 5, title: "Trộn", values: 0 },
     { id: 6, title: "Hải sản", values: 0 },
+    { id: 7, title: "Cơm", values: 0 },
+    { id: 8, title: "Nước", values: 0 },
+    { id: 9, title: "Cà phê", values: 0 },
+    { id: 10, title: "Rượu", values: 0 },
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -480,7 +484,7 @@ const Menu = () => {
           {/* list product */}
           <Row>
             {(products || []).map((product) => (
-              <Col key={product.id} xs={12} sm={6} md={4} className="center">
+              <Col key={product.id} xs={12} sm={6} md={3} className="center">
                 <Card className="card mb-4" onClick={() => handleCardClick(product.id, product.type)} style={{ cursor: 'pointer' }}>
                   <Card.Img
                     variant="top"

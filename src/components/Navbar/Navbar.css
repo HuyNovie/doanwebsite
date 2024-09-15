@@ -270,8 +270,13 @@
   .menu .menu-title:hover:after {
   transform: scaleX(0.2); 
   }
+
+
 }
 
-
+.card-item {
+  width: 60px;
+  height: 60px;
+}
 
 

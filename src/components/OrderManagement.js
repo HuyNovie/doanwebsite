@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Card, Button, Spinner, Alert, Row, Col } from 'react-bootstrap';
+import { Container, ListGroup, Spinner, Alert, Row, Col } from 'react-bootstrap';
 import api from '../api/axios';
 
-const OrderManagement = () => {
+const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [userId, setUserId] = useState('');
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchUserIdAndOrders = async () => {
       try {
-        const response = await api.get('/orders/all');
-        setOrders(response.data.result);
-        console.log("load orders thành công");
-        console.log(response.data.result)
+        const token = localStorage.getItem('jwtToken');
+        const userResponse = await api.get('/users/my-info', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const userId = userResponse.data.result.id;
+        setUserId(userId);
+
+        const ordersResponse = await api.get(`/orders/all`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setOrders(ordersResponse.data.result);
+        console.log(ordersResponse.data.result);
+        console.log('Orders response:', ordersResponse.data.result);
       } catch (error) {
         setError('Lỗi khi lấy đơn hàng.');
       } finally {
@@ -21,7 +31,7 @@ const OrderManagement = () => {
       }
     };
 
-    fetchOrders();
+    fetchUserIdAndOrders();
   }, []);
 
   if (loading) return <div className="text-center"><Spinner animation="border" /></div>;
@@ -29,38 +39,38 @@ const OrderManagement = () => {
 
   return (
     <Container className="mt-5">
-      <h1 className="mb-4">Quản lý Đơn Hàng</h1>
-      <Row>
-        {orders.map(order => (
-          <Col md={4} key={order.orderId} className="mb-3">
-            <Card>
-              <Card.Body>
-                <Card.Title>Đơn hàng {order.orderId}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">Người dùng: {order.userId}</Card.Subtitle>
-                <Card.Text>
-                  Ngày tạo: {new Date(order.orderDate).toLocaleDateString()}<br />
-                  Tổng số tiền: {order.totalAmount.toFixed(2)} VND
-                </Card.Text>
-                {order.orderDetailResponses && order.orderDetailResponses.length > 0 && (
-                  <Card.Text>
-                    <strong>Chi tiết đơn hàng:</strong>
-                    <ul>
-                      {order.orderDetailResponses.map(detail => (
-                        <li key={detail.productId}>
-                          {detail.productName} - Số lượng: {detail.quantity} - Đơn giá: {detail.unitPrice.toFixed(2)} VND
-                        </li>
-                      ))}
-                    </ul>
-                  </Card.Text>
-                )}
-                <Button variant="info">Xem Chi Tiết</Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+      <h1>Đơn Hàng</h1>
+      <ListGroup>
+        {orders.length > 0 ? (
+          orders.map(order => (
+            <ListGroup.Item key={order.orderId}>
+              <Row>
+                <Col md={8}>
+                  <h5>Đơn hàng ID: {order.orderId}</h5>
+                  <p>Ngày đặt hàng: {new Date(order.ordersDate).toLocaleString('vi-VN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' })}</p>
+                  <p>Phương thức thanh toán: {order.paymentMethod}</p>
+                  <p>Mã khuyến mãi: {order.promoCode || 'Không có'}</p>
+                  <p>Tổng tiền: {order.totalAmount.toLocaleString()} VND</p>
+                </Col>
+                <Col md={4}>
+                  <h6>Chi tiết đơn hàng:</h6>
+                  <ListGroup variant="flush">
+                    {order.orderDetailResponses.map((detail, index) => (
+                      <ListGroup.Item key={index}>
+                        <p>{detail.productName} - {Number(detail.quantity).toFixed(2)} x {detail.unitPrice.toLocaleString()} VND</p>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                </Col>
+              </Row>
+            </ListGroup.Item>
+          ))
+        ) : (
+          <ListGroup.Item>Chưa có đơn hàng nào.</ListGroup.Item>
+        )}
+      </ListGroup>
     </Container>
   );
 };
 
-export default OrderManagement;
+export default MyOrders;

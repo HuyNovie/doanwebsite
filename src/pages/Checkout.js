@@ -77,10 +77,7 @@ const Checkout = () => {
   };
 
   return (
-    <div
-      className="row"
-      style={{ padding: "2% 8%"}}
-    >
+    <div className="row" style={{ padding: "2% 8%" }}>
       <h1 className="text-warning">Giỏ hàng</h1>
       <table className="table table-hover">
         <thead>
@@ -104,8 +101,14 @@ const Checkout = () => {
                   src={`http://localhost:8080/restaurant/images/${item.imageUrl}`}
                   className="img-fluid rounded"
                   alt={item.productName || "Tên món không có"}
+                  style={{
+                    width: "150px",
+                    height: "150px",
+                    objectFit: "cover",
+                  }}
                 />
               </td>
+
               <td style={{ width: "200px", wordWrap: "break-word" }}>
                 {item.productName || "Tên món không có"}
               </td>

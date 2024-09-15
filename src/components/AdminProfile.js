@@ -7,7 +7,7 @@ const AdminProfile = () => {
     <Container className=" d-flex flex-column align-items-center mt-5">
       <h1 className="text-center mt-5 mb-4">Admin Dashboard</h1>
       <Row className="w-100 justify-content-center">
-        <Col md={6} lg={4} className="mb-4 d-flex justify-content-center">
+        <Col md={6} lg={6} className="mb-4 d-flex justify-content-center">
           <Card style={{ width: '18rem' }}>
             <Card.Body className="text-center">
               <Card.Title>Quản lý Sản Phẩm</Card.Title>
@@ -18,7 +18,7 @@ const AdminProfile = () => {
           </Card>
         </Col>
 
-        <Col md={6} lg={4} className="mb-4 d-flex justify-content-center">
+        <Col md={6} lg={6} className="mb-4 d-flex justify-content-center">
           <Card style={{ width: '18rem' }}>
             <Card.Body className="text-center">
               <Card.Title>Quản lý Đơn Hàng</Card.Title>
@@ -28,8 +28,17 @@ const AdminProfile = () => {
             </Card.Body>
           </Card>
         </Col>
-
-        <Col md={6} lg={4} className="mb-4 d-flex justify-content-center">
+        <Col md={6} lg={6} className="mb-4 d-flex justify-content-center">
+          <Card style={{ width: '18rem' }}>
+            <Card.Body className="text-center">
+              <Card.Title>Quản lý Đơn đăt bàn</Card.Title>
+              <Button variant="warning" as={Link} to="/admin/manager-booking">
+                Xem đặt bàn
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={6} lg={6} className="mb-4 d-flex justify-content-center">
           <Card style={{ width: '18rem' }}>
             <Card.Body className="text-center">
               <Card.Title>Quản lý Người Dùng</Card.Title>

@@ -23,34 +23,43 @@ const SlideDown = (delay) => ({
   animate: { y: 0, opacity: 1, transition: { duration: 0.7, delay } },
 });
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userIcon, setUserIcon] = useState(<FaUser />);
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
   const jwtToken = localStorage.getItem("jwtToken");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     if (jwtToken) {
-      setIsLoggedIn(true);
-      if (user) {
-        setUserName(user.username || ""); 
-        setUserIcon(user.roles && user.roles.includes("ADMIN") ? <FaUserCircle /> : <FaUser />);
+      if (user && user.username !== userName) {
+        setUserName(user.username || "");
+        setUserIcon(
+          user.roles && user.roles.includes("ADMIN") ? (
+            <FaUserCircle />
+          ) : (
+            <FaUser />
+          )
+        );
       }
+      setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
-      setUserIcon(<FaUser />);
     }
-  }, [user, jwtToken]);
+  }, [user, jwtToken, userName]);
+  
+
+  const { cartItems, cartQty, totalPrice, refreshCart } = useShoppingContext();
 
   const handleLogout = () => {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("user");
     setIsLoggedIn(false);
+    refreshCart();
     navigate("/");
   };
 
-  const { cartItems, cartQty, totalPrice } = useShoppingContext();
 
   const [smallNavbar, setSmallNavbar] = useState(false);
 
@@ -94,7 +103,7 @@ const Navbar = ({ user }) => {
 
   return (
     <div id="navbar" className={`navbar ${smallNavbar ? "small" : ""}`}>
-      <motion.img 
+      <motion.img
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.9, delay: 0.5 }}
@@ -141,7 +150,7 @@ const Navbar = ({ user }) => {
           <Dropdown.Toggle className="btn-item card-item">
             <IoCartOutline />
             {cartQty > 0 && (
-              <span className="position-absolute top-0 start-1 badge badge-pill bg-danger">
+              <span className=" position-absolute top-0 start-1 badge badge-pill bg-danger">
                 {cartQty}
               </span>
             )}
@@ -156,34 +165,47 @@ const Navbar = ({ user }) => {
               </li>
               <li>
                 <div className="table-responsive">
-                  <table className="table">
+                  <table className="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>Hình ảnh</th>
+                        <th>Tên món</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Tổng</th>
+                      </tr>
+                    </thead>
                     <tbody>
                       {cartItems?.length > 0 ? (
                         cartItems.map((item) => (
                           <tr key={item.productId}>
-                            <td>
+                            <td style={{ width: "70px" }}>
                               <img
-                                src={`http://localhost:8080/restaurant/images/${item.imageUrl}`} 
-                                className='img-fluid rounded'
-                                alt={item.productName || 'Tên món không có'}
-                                style={{ width: "100px", height: "auto" }}
-                                onError={(e) => {
-                                  e.target.onerror = null; 
-                                  e.target.src = 'path_to_fallback_image'; 
+                                src={`http://localhost:8080/restaurant/images/${item.imageUrl}`}
+                                className="img-fluid rounded"
+                                alt={item.productName || "Tên món không có"}
+                                style={{
+                                  width: "50px",
+                                  height: "50px",
+                                  objectFit: "cover",
                                 }}
                               />
                             </td>
-                            <td>{item.productName || 'Tên món không có'}</td>
+                            <td>{item.productName || "Tên món không có"}</td>
                             <td>{formatCurrency(item.unitPrice || 0)}</td>
                             <td>{item.quantity || 0}</td>
                             <td>
-                              {formatCurrency((item.unitPrice || 0) * (item.quantity || 0))}
+                              {formatCurrency(
+                                (item.unitPrice || 0) * (item.quantity || 0)
+                              )}
                             </td>
                           </tr>
                         ))
                       ) : (
                         <tr>
-                          <td colSpan="5" style={{ textAlign: "center" }}>Giỏ hàng trống</td>
+                          <td colSpan="5" style={{ textAlign: "center" }}>
+                            Giỏ hàng trống
+                          </td>
                         </tr>
                       )}
                     </tbody>
@@ -204,14 +226,16 @@ const Navbar = ({ user }) => {
             </ul>
           </Dropdown.Menu>
         </Dropdown>
-        <div style={{padding: "5px"}}>
+        <div style={{ padding: "5px", textAlign:"center" }}>
           {isLoggedIn ? (
             <>
-              <Link to="/profile" style={{color:"black"}}>{userIcon} {userName}</Link>
+              <Link to="/profile" style={{ color: "black" }}>
+                {userIcon} {userName}
+              </Link><br/>
               <button onClick={handleLogout}>Đăng xuất</button>
             </>
           ) : (
-            <Link to="/login" style={{color:"black"}} >
+            <Link to="/login" style={{ color: "black" }}>
               <FaSignInAlt />
             </Link>
           )}

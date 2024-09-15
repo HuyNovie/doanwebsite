@@ -9,12 +9,14 @@ import Menu from "./pages/Menu";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ManageBookings from "./components/ManagerBooking";
 import Booking from "./pages/Booking";
 import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import ProductDetails from "./pages/Productdetails";
 import Loading from './components/Loading/Loading';
 import Payment from "./pages/Payment";
+import UserBooking from "./components/UserBooking";
 import Contact from "./pages/Contact";
 import Introduce from "./pages/Introduce";
 import AdminProfile from "./components/AdminProfile";
@@ -33,7 +35,7 @@ const App = () => {
 
   useEffect(() => {
     const jwtToken = localStorage.getItem("jwtToken");
-
+  
     if (jwtToken) {
       api
         .get("auth/introspect", {
@@ -59,18 +61,27 @@ const App = () => {
       setLoading(false);
     }
   }, []);
-
+  
   const loadUserData = () => {
-    api
-      .get("/users/my-info")
-      .then((response) => {
-        setUser(response.data.result); // lưu thông tin người dùng vào state
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Không thể lấy dữ liệu", error);
-        setLoading(false);
-      });
+    const jwtToken = localStorage.getItem("jwtToken");
+  
+    if (jwtToken) {
+      api
+        .get("/users/my-info", {
+          headers: { Authorization: `Bearer ${jwtToken}` },
+        })
+        .then((response) => {
+          console.log("User data:", response.data.result);
+          setUser(response.data.result);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Không thể lấy dữ liệu", error);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
   };
 
   if (loading) {
@@ -95,6 +106,8 @@ const App = () => {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/payment" element={<Payment/>} />
           <Route path="/admin" element={<AdminProfile />} />
+          <Route path="/customer/user-Booking" element={<UserBooking/>} />
+          <Route path="/admin/manager-booking" element={<ManageBookings />} />
           <Route path="/admin/product-management" element={<ProductManagement />} />
           <Route path="/admin/view-products" element={<ProductManagement />} />
           <Route path="/admin/order-management" element={<OrderManagement />} />
