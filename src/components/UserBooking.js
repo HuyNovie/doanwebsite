@@ -12,8 +12,9 @@ const UserBooking = () => {
   }, []);
 
   const fetchUserBookings = async () => {
-    const email = localStorage.getItem("userEmail");
-    const phone = localStorage.getItem("userPhone");
+    const user = localStorage.getItem("user");
+    const email = user.email;
+    const phone = user.phone;
 
     try {
       const response = await api.get("/booking/search", {
@@ -24,6 +25,7 @@ const UserBooking = () => {
       console.error("Lỗi khi lấy danh sách đặt bàn của người dùng:", error);
     }
   };
+  
 
   const handleEdit = (booking) => {
     setSelectedBooking(booking);
@@ -70,7 +72,7 @@ const UserBooking = () => {
               <td>{booking.name}</td>
               <td>{booking.email}</td>
               <td>{booking.phone}</td>
-              <td>{moment(booking.bookingDate).format("YYYY-MM-DD HH:mm:ss.SSSSSS")}</td> {/* Định dạng ngày giờ */}
+              <td>{moment(booking.bookingDate).format("YYYY-MM-DD HH:mm:ss.SSSSSS")}</td> 
               <td>{booking.branch}</td>
               <td>
                 <Button onClick={() => handleEdit(booking)}>Sửa</Button>
